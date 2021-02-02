@@ -94,7 +94,7 @@ module scr1_pipe_exu (
     output  logic                               exu2csr_take_exc_o,         // Take exception trap
     output  logic                               exu2csr_mret_update_o,      // MRET update CSR
     output  logic                               exu2csr_mret_instr_o,       // MRET instruction
-    output  type_scr1_exc_code_e                exu2csr_exc_code_o,         // Exception code (see scr1_arch_types.svh)
+    output  logic [SCR1_EXC_CODE_WIDTH_E-1:0]   exu2csr_exc_code_o,         // Exception code (see scr1_arch_types.svh) - cp.7
     output  logic [`SCR1_XLEN-1:0]              exu2csr_trap_val_o,         // Trap value
     input   logic [`SCR1_XLEN-1:0]              csr2exu_new_pc_i,           // Exception/IRQ/MRET new PC
     input   logic                               csr2exu_irq_i,              // IRQ request
@@ -220,7 +220,7 @@ logic                               exu_exc_req_ff;
 logic                               exu_exc_req_next;
 logic                               exu_exc_req_upd;
 `endif // SCR1_DBG_EN
-type_scr1_exc_code_e                exc_code;
+logic [SCR1_EXC_CODE_WIDTH_E-1:0]   exc_code; // cp.7
 logic [`SCR1_XLEN-1:0]              exc_trap_val;
 logic                               instr_fault_rvi_hi;
 
@@ -264,7 +264,7 @@ logic                               lsu_req;
 logic                               lsu_rdy;
 logic [`SCR1_XLEN-1:0]              lsu_l_data;
 logic                               lsu_exc_req;
-type_scr1_exc_code_e                lsu_exc_code;
+logic [SCR1_EXC_CODE_WIDTH_E-1:0]   lsu_exc_code; // cp.7
 
 // EXU status signals
 //------------------------------------------------------------------------------

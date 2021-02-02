@@ -170,7 +170,7 @@ logic                                       exu2csr_take_irq;       // Take IRQ 
 logic                                       exu2csr_take_exc;       // Take exception trap
 logic                                       exu2csr_mret_update;    // MRET update CSR
 logic                                       exu2csr_mret_instr;     // MRET instruction
-type_scr1_exc_code_e                        exu2csr_exc_code;       // Exception code (see scr1_arch_types.svh)
+logic [SCR1_EXC_CODE_WIDTH_E-1:0]           exu2csr_exc_code;       // Exception code (see scr1_arch_types.svh) - cp.7
 logic [`SCR1_XLEN-1:0]                      exu2csr_trap_val;       // Trap value
 logic [`SCR1_XLEN-1:0]                      csr2exu_new_pc;         // Exception/IRQ/MRET new PC
 logic                                       csr2exu_irq;            // IRQ request

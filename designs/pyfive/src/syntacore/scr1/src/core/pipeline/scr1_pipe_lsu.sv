@@ -40,7 +40,7 @@ module scr1_pipe_lsu (
     output  logic                               lsu2exu_rdy_o,              // LSU received DMEM response
     output  logic [`SCR1_XLEN-1:0]              lsu2exu_ldata_o,            // Load data
     output  logic                               lsu2exu_exc_o,              // Exception from LSU
-    output  type_scr1_exc_code_e                lsu2exu_exc_code_o,         // Exception code
+    output  logic [SCR1_EXC_CODE_WIDTH_E-1:0]   lsu2exu_exc_code_o,         // Exception code - cp.7
 
 `ifdef SCR1_TDU_EN
     // LSU <-> TDU interface

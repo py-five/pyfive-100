@@ -44,7 +44,7 @@ module scr1_tracelog (
     input   logic [`SCR1_XLEN-1:2]                csr2trace_mepc_i,             // CSR MEPC register
  `endif // SCR1_RVC_EXT
     input   logic                                 csr2trace_mcause_irq_i,       // CSR MCAUSE.interrupt bit
-    input   type_scr1_exc_code_e                  csr2trace_mcause_ec_i,        // CSR MCAUSE.exception_code bit
+    input   logic [SCR1_EXC_CODE_WIDTH_E-1:0]     csr2trace_mcause_ec_i,        // CSR MCAUSE.exception_code bit - cp.7
     input   logic [`SCR1_XLEN-1:0]                csr2trace_mtval_i,            // CSR MTVAL register
     input   logic                                 csr2trace_mstatus_mie_up_i,   // CSR MSTATUS.mie update flag
 

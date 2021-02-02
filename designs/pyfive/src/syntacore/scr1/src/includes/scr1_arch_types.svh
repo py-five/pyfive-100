@@ -38,17 +38,17 @@ parameter bit [31:0] SCR1_CSR_MTVEC_BASE_RO_BITS = (`SCR1_XLEN-(SCR1_CSR_MTVEC_B
 parameter bit [31:0] SCR1_EXC_CODE_WIDTH_E    = 4; // cp.1
 
 // Exceptions
-typedef enum logic [SCR1_EXC_CODE_WIDTH_E-1:0] {
-    SCR1_EXC_CODE_INSTR_MISALIGN        = 4'd0,     // from EXU
-    SCR1_EXC_CODE_INSTR_ACCESS_FAULT    = 4'd1,     // from IFU
-    SCR1_EXC_CODE_ILLEGAL_INSTR         = 4'd2,     // from IDU or CSR
-    SCR1_EXC_CODE_BREAKPOINT            = 4'd3,     // from IDU or BRKM
-    SCR1_EXC_CODE_LD_ADDR_MISALIGN      = 4'd4,     // from LSU
-    SCR1_EXC_CODE_LD_ACCESS_FAULT       = 4'd5,     // from LSU
-    SCR1_EXC_CODE_ST_ADDR_MISALIGN      = 4'd6,     // from LSU
-    SCR1_EXC_CODE_ST_ACCESS_FAULT       = 4'd7,     // from LSU
-    SCR1_EXC_CODE_ECALL_M               = 4'd11     // from IDU
-} type_scr1_exc_code_e;
+//typedef enum logic [SCR1_EXC_CODE_WIDTH_E-1:0] { - cp.7
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_INSTR_MISALIGN        = 4'd0;     // from EXU
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_INSTR_ACCESS_FAULT    = 4'd1;     // from IFU
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_ILLEGAL_INSTR         = 4'd2;     // from IDU or CSR
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_BREAKPOINT            = 4'd3;     // from IDU or BRKM
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_LD_ADDR_MISALIGN      = 4'd4;     // from LSU
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_LD_ACCESS_FAULT       = 4'd5;     // from LSU
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_ST_ADDR_MISALIGN      = 4'd6;     // from LSU
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_ST_ACCESS_FAULT       = 4'd7;     // from LSU
+localparam bit  [SCR1_EXC_CODE_WIDTH_E-1:0]   SCR1_EXC_CODE_ECALL_M               = 4'd11;     // from IDU
+//} type_scr1_exc_code_e;
 
 // IRQs, reset
 parameter bit [SCR1_EXC_CODE_WIDTH_E-1:0] SCR1_EXC_CODE_IRQ_M_SOFTWARE      = 4'd3;

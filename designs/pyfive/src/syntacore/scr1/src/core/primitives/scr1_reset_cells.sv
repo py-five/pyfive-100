@@ -47,7 +47,7 @@ endmodule : scr1_reset_buf_cell
 // Reset CDC Synchronization Cell
 //--------------------------------------------------------------------
 module scr1_reset_sync_cell #(
-    parameter int unsigned STAGES_AMOUNT = 2
+    parameter [31:0] STAGES_AMOUNT = 2 // cp.1
 ) (
     input   logic           rst_n,
     input   logic           clk,
@@ -98,7 +98,7 @@ endmodule : scr1_reset_sync_cell
 // Data CDC/RDC Synchronization Cell
 //--------------------------------------------------------------------
 module scr1_data_sync_cell #(
-    parameter int unsigned  STAGES_AMOUNT = 1
+    parameter bit [31:0] STAGES_AMOUNT = 1 // cp.1
 ) (
     input   logic           rst_n,
     input   logic           clk,

@@ -175,7 +175,7 @@ typedef struct packed {
     logic [`SCR1_XLEN-1:0]              imm;            // used as {funct3, CSR address} for CSR instructions
                                                         // used as instruction field for illegal instruction exception
     logic                               exc_req;
-    type_scr1_exc_code_e                exc_code;
+    logic [SCR1_EXC_CODE_WIDTH_E-1:0]   exc_code;
 } type_scr1_exu_cmd_s;
 
 `endif // SCR1_RISCV_ISA_DECODING_SVH

@@ -155,8 +155,15 @@ logic                                           dm_cmd_resp_qlfy;
 logic                                           dm_cmd_rcode;
 logic                                           dm_hart_event;
 logic                                           dm_hart_event_qlfy;
-type_scr1_hdu_hartstatus_s                      dm_hart_status;
-type_scr1_hdu_hartstatus_s                      dm_hart_status_qlfy;
+// type_scr1_hdu_hartstatus_s                   dm_hart_status; // cp.8
+logic                                           dm_hart_status_except; // cp.8
+logic                                           dm_hart_status_ebreak; // cp.8
+logic [1:0]                                     dm_hart_status_dbg_state; // cp.8
+
+//type_scr1_hdu_hartstatus_s                    dm_hart_status_qlfy;
+logic                                           dm_hart_status_qlfy_except; // cp.8
+logic                                           dm_hart_status_qlfy_ebreak; // cp.8
+logic [1:0]                                     dm_hart_status_qlfy_dbg_state; // cp.8
 // Program Buffer - HART instruction execution i/f
 logic [SCR1_HDU_PBUF_ADDR_WIDTH-1:0]            dm_pbuf_addr;
 logic [SCR1_HDU_PBUF_ADDR_WIDTH-1:0]            dm_pbuf_addr_qlfy;
@@ -327,7 +334,10 @@ scr1_pipe_top i_pipe_top (
     .pipe2dm_cmd_resp_o             (dm_cmd_resp            ),
     .pipe2dm_cmd_rcode_o            (dm_cmd_rcode           ),
     .pipe2dm_hart_event_o           (dm_hart_event          ),
-    .pipe2dm_hart_status_o          (dm_hart_status         ),
+    //.pipe2dm_hart_status_o          (dm_hart_status       ),   // cp.8
+    .pipe2dm_hart_status_o_except    (dm_hart_status_except   ), // cp.8
+    .pipe2dm_hart_status_o_ebreak    (dm_hart_status_ebreak   ), // cp.8
+    .pipe2dm_hart_status_o_dbg_state (dm_hart_status_dbg_state), // cp.8
 
     // DM <-> Pipeline: Program Buffer - HART instruction execution i/f
     .pipe2dm_pbuf_addr_o            (dm_pbuf_addr           ),
@@ -453,10 +463,10 @@ scr1_dmi i_dmi (
 //-------------------------------------------------------------------------------
 assign dm_cmd_resp_qlfy    = dm_cmd_resp   & {$bits(dm_cmd_resp){hdu2dm_rdc_qlfy}};
 assign dm_hart_event_qlfy  = dm_hart_event & {$bits(dm_hart_event){hdu2dm_rdc_qlfy}};
-assign dm_hart_status_qlfy.dbg_state = hdu2dm_rdc_qlfy ? dm_hart_status.dbg_state
+assign dm_hart_status_qlfy_dbg_state = hdu2dm_rdc_qlfy ? dm_hart_status_dbg_state   // cp.8
                                                        : SCR1_HDU_DBGSTATE_RESET;
-assign dm_hart_status_qlfy.except    = dm_hart_status.except;
-assign dm_hart_status_qlfy.ebreak    = dm_hart_status.ebreak;
+assign dm_hart_status_qlfy_except    = dm_hart_status_except; // cp.8
+assign dm_hart_status_qlfy_ebreak    = dm_hart_status_ebreak; // cp.8
 assign dm_pbuf_addr_qlfy   = dm_pbuf_addr  & {$bits(dm_pbuf_addr){hdu2dm_rdc_qlfy}};
 assign dm_dreg_req_qlfy    = dm_dreg_req   & {$bits(dm_dreg_req){hdu2dm_rdc_qlfy}};
 assign dm_pc_sample_qlfy   = dm_pc_sample  & {$bits(dm_pc_sample){core2dm_rdc_qlfy}};
@@ -483,7 +493,10 @@ scr1_dm i_dm (
     .pipe2dm_cmd_resp_i         (dm_cmd_resp_qlfy       ),
     .pipe2dm_cmd_rcode_i        (dm_cmd_rcode           ),
     .pipe2dm_hart_event_i       (dm_hart_event_qlfy     ),
-    .pipe2dm_hart_status_i      (dm_hart_status_qlfy    ),
+    //.pipe2dm_hart_status_i      (dm_hart_status_qlfy    ),
+    .pipe2dm_hart_status_i_except    (dm_hart_status_qlfy_except    ),
+    .pipe2dm_hart_status_i_ebreak    (dm_hart_status_qlfy_ebreak    ),
+    .pipe2dm_hart_status_i_dbg_state (dm_hart_status_qlfy_dbg_state ),
 
     .soc2dm_fuse_mhartid_i      (core_fuse_mhartid_i    ),
     .pipe2dm_pc_sample_i        (dm_pc_sample_qlfy      ),

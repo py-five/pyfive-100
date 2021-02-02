@@ -59,12 +59,12 @@ typedef enum logic {
     SCR1_HDU_FETCH_SRC_XXX          = 1'bX
 } type_scr1_hdu_fetch_src_e;
 
-typedef struct packed {
-    //logic                               reset_n;
-    logic                               except;
-    logic                               ebreak;
-    logic [1:0]                         dbg_state; // cp.7
-} type_scr1_hdu_hartstatus_s;
+////typedef struct packed {
+////    //logic                               reset_n;
+////    logic                               except;
+////    logic                               ebreak;
+////    logic [1:0]                         dbg_state; // cp.7
+////} type_scr1_hdu_hartstatus_s;
 
 // Debug Mode Redirection control:
 typedef struct packed {

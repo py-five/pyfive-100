@@ -60,7 +60,10 @@ module scr1_pipe_hdu #(parameter HART_PBUF_INSTR_REGOUT_EN = 1'b1) (
     output logic                                        hdu2dm_cmd_resp_o,          // DM-HART Command response
     output logic                                        hdu2dm_cmd_rcode_o,         // DM-HART Command return code: 0 - Ok; 1 - Error
     output logic                                        hdu2dm_hart_event_o,        // DM-HART Event: 1 if HART debug state changed
-    output type_scr1_hdu_hartstatus_s                   hdu2dm_hart_status_o,       // DM-HART Status
+    //output type_scr1_hdu_hartstatus_s                 hdu2dm_hart_status_o,       // DM-HART Status
+    output logic                                        hdu2dm_hart_status_o_except,       // DM-HART Status
+    output logic                                        hdu2dm_hart_status_o_ebreak,       // DM-HART Status
+    output logic  [1:0]                                 hdu2dm_hart_status_o_dbg_state,       // DM-HART Status
 
     // Program Buffer i/f
     output logic [SCR1_HDU_PBUF_ADDR_WIDTH-1:0]         hdu2dm_pbuf_addr_o,         // Program Buffer address - so far request only for 1 instruction
@@ -735,10 +738,12 @@ assign hdu2dm_hart_event_o = dfsm_event;
 
 // HART status
 always_comb begin
-    hdu2dm_hart_status_o           = '0;
-    hdu2dm_hart_status_o.dbg_state = dbg_state;
-    hdu2dm_hart_status_o.except    = dbg_state_dhalted & hart_haltstatus.except;
-    hdu2dm_hart_status_o.ebreak    = dbg_state_dhalted & (hart_haltstatus.cause == SCR1_HDU_HALTCAUSE_EBREAK);
+    hdu2dm_hart_status_o_dbg_state = '0; // cp.8
+    hdu2dm_hart_status_o_except    = '0; // cp.8
+    hdu2dm_hart_status_o_ebreak    = '0; // cp.8
+    hdu2dm_hart_status_o_dbg_state = dbg_state;
+    hdu2dm_hart_status_o_except    = dbg_state_dhalted & hart_haltstatus.except;
+    hdu2dm_hart_status_o_ebreak    = dbg_state_dhalted & (hart_haltstatus.cause == SCR1_HDU_HALTCAUSE_EBREAK);
 end
 
 assign hdu2dm_cmd_rcode_o = dbg_state_reset

@@ -65,7 +65,10 @@ module scr1_dm (
     input  logic                                    pipe2dm_cmd_resp_i,         // Response to Debug Module
     input  logic                                    pipe2dm_cmd_rcode_i,        // HART Command return code: 0 - Ok; 1 - Error
     input  logic                                    pipe2dm_hart_event_i,       // HART event flag
-    input  type_scr1_hdu_hartstatus_s               pipe2dm_hart_status_i,      // HART Status
+    //input  type_scr1_hdu_hartstatus_s             pipe2dm_hart_status_i,       // HART Status - cp.8
+    input  logic                                    pipe2dm_hart_status_i_except,  // HART Status - cp.8
+    input  logic                                    pipe2dm_hart_status_i_ebreak,  // HART Status - cp.8
+    input  logic [1:0]                              pipe2dm_hart_status_i_dbg_state,// HART Status - cp.8
 
     input  logic [`SCR1_XLEN-1:0]                   soc2dm_fuse_mhartid_i,      // RO MHARTID value
     input  logic [`SCR1_XLEN-1:0]                   pipe2dm_pc_sample_i,        // RO PC value for sampling
@@ -571,10 +574,10 @@ assign abstractcs_wr_req = dmi_req_abstractcs   & dmi2dm_wr_i;
 // HART state signals
 //------------------------------------------------------------------------------
 
-assign hart_state_reset = (pipe2dm_hart_status_i.dbg_state == SCR1_HDU_DBGSTATE_RESET);
-assign hart_state_run   = (pipe2dm_hart_status_i.dbg_state == SCR1_HDU_DBGSTATE_RUN);
-assign hart_state_dhalt = (pipe2dm_hart_status_i.dbg_state == SCR1_HDU_DBGSTATE_DHALTED);
-assign hart_state_drun  = (pipe2dm_hart_status_i.dbg_state == SCR1_HDU_DBGSTATE_DRUN);
+assign hart_state_reset = (pipe2dm_hart_status_i_dbg_state == SCR1_HDU_DBGSTATE_RESET);
+assign hart_state_run   = (pipe2dm_hart_status_i_dbg_state == SCR1_HDU_DBGSTATE_RUN);
+assign hart_state_dhalt = (pipe2dm_hart_status_i_dbg_state == SCR1_HDU_DBGSTATE_DHALTED);
+assign hart_state_drun  = (pipe2dm_hart_status_i_dbg_state == SCR1_HDU_DBGSTATE_DRUN);
 
 //------------------------------------------------------------------------------
 // DM registers
@@ -1290,8 +1293,8 @@ always_comb begin
 end
 
 assign dhi_resp     = dhi_fsm_exec_halt    & hart_state_dhalt;
-assign dhi_resp_exc = pipe2dm_hart_event_i & pipe2dm_hart_status_i.except
-                                           & ~pipe2dm_hart_status_i.ebreak;
+assign dhi_resp_exc = pipe2dm_hart_event_i & pipe2dm_hart_status_i_except
+                                           & ~pipe2dm_hart_status_i_ebreak;
 
 // HART command registers
 //------------------------------------------------------------------------------
@@ -1407,7 +1410,7 @@ SVA_DM_X_HART_CMD : assert property (
 
 SVA_DM_X_HART_EVENT : assert property (
     @(negedge clk) disable iff (~rst_n)
-    pipe2dm_hart_event_i |-> !$isunknown(pipe2dm_hart_status_i)
+    pipe2dm_hart_event_i |-> !$isunknown({pipe2dm_hart_status_i_dbg_state,pipe2dm_hart_status_i_ebreak,pipe2dm_hart_status_i_except})
 ) else $error("DM error: data signals is X on pipe2dm_hart_event_i");
 
 `endif // SCR1_TRGT_SIMULATION

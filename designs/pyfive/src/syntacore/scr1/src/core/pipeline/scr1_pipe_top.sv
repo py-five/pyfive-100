@@ -57,7 +57,10 @@ module scr1_pipe_top (
     output logic                                        pipe2dm_cmd_resp_o,         // Response to Debug Module
     output logic                                        pipe2dm_cmd_rcode_o,        // Debug Module return code: 0 - Ok; 1 - Error
     output logic                                        pipe2dm_hart_event_o,       // HART event flag
-    output type_scr1_hdu_hartstatus_s                   pipe2dm_hart_status_o,      // HART status
+    //output type_scr1_hdu_hartstatus_s                 pipe2dm_hart_status_o,      // HART status - cp.8
+    output logic                                        pipe2dm_hart_status_o_except,      // HART status - cp.8
+    output logic                                        pipe2dm_hart_status_o_ebreak,      // HART status - cp.8
+    output logic [1:0]                                  pipe2dm_hart_status_o_dbg_state,      // HART status - cp.8
 
     // DM <-> Pipeline: Program Buffer - HART instruction execution i/f
     output logic [SCR1_HDU_PBUF_ADDR_WIDTH-1:0]         pipe2dm_pbuf_addr_o,        // Program Buffer address
@@ -692,7 +695,10 @@ scr1_pipe_hdu i_pipe_hdu (
     .hdu2dm_cmd_resp_o          (pipe2dm_cmd_resp_o    ),
     .hdu2dm_cmd_rcode_o         (pipe2dm_cmd_rcode_o   ),
     .hdu2dm_hart_event_o        (pipe2dm_hart_event_o  ),
-    .hdu2dm_hart_status_o       (pipe2dm_hart_status_o ),
+    //.hdu2dm_hart_status_o       (pipe2dm_hart_status_o ), - cp8.8
+    .hdu2dm_hart_status_o_except     (pipe2dm_hart_status_o_except ), // cp.8
+    .hdu2dm_hart_status_o_ebreak     (pipe2dm_hart_status_o_ebreak ), // cp.8
+    .hdu2dm_hart_status_o_dbg_state  (pipe2dm_hart_status_o_dbg_state ), // cp.8
 
     // Program Buffer - HART instruction execution i/f
     .hdu2dm_pbuf_addr_o         (pipe2dm_pbuf_addr_o   ),

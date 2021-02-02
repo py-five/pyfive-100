@@ -16,14 +16,14 @@
 //==============================================================================
 // Parameters
 //==============================================================================
-//localparam int unsigned SCR1_HDU_DEBUGCSR_BASE_ADDR      = 12'h7B0;
-localparam int unsigned SCR1_HDU_DEBUGCSR_ADDR_SPAN      = SCR1_CSR_ADDR_HDU_MSPAN;
-localparam int unsigned SCR1_HDU_DEBUGCSR_ADDR_WIDTH     = $clog2(SCR1_HDU_DEBUGCSR_ADDR_SPAN);
-localparam bit [3:0]    SCR1_HDU_DEBUGCSR_DCSR_XDEBUGVER = 4'h4;
-localparam int unsigned SCR1_HDU_PBUF_ADDR_SPAN          = 8;
-localparam int unsigned SCR1_HDU_PBUF_ADDR_WIDTH         = $clog2(SCR1_HDU_PBUF_ADDR_SPAN);
-localparam int unsigned SCR1_HDU_DATA_REG_WIDTH          = 32;
-localparam int unsigned SCR1_HDU_CORE_INSTR_WIDTH        = 32;
+//localparam bit [31:0] unsigned SCR1_HDU_DEBUGCSR_BASE_ADDR      = 12'h7B0;
+localparam bit [31:0] SCR1_HDU_DEBUGCSR_ADDR_SPAN      = SCR1_CSR_ADDR_HDU_MSPAN; // cp.1
+localparam bit [31:0] SCR1_HDU_DEBUGCSR_ADDR_WIDTH     = $clog2(SCR1_HDU_DEBUGCSR_ADDR_SPAN);
+localparam bit [3:0]    SCR1_HDU_DEBUGCSR_DCSR_XDEBUGVER = 4'h4; // cp.1
+localparam bit [31:0] SCR1_HDU_PBUF_ADDR_SPAN          = 8; // cp.1
+localparam bit [31:0] SCR1_HDU_PBUF_ADDR_WIDTH         = $clog2(SCR1_HDU_PBUF_ADDR_SPAN);
+localparam bit [31:0] SCR1_HDU_DATA_REG_WIDTH          = 32; // cp.1
+localparam bit [31:0] SCR1_HDU_CORE_INSTR_WIDTH        = 32; // cp.1
 
 
 //==============================================================================
@@ -109,7 +109,7 @@ localparam bit [SCR1_CSR_ADDR_WIDTH-1:0] SCR1_HDU_DBGCSR_ADDR_DSCRATCH0 = SCR1_C
 localparam bit [SCR1_CSR_ADDR_WIDTH-1:0] SCR1_HDU_DBGCSR_ADDR_DSCRATCH1 = SCR1_CSR_ADDR_HDU_MBASE + SCR1_HDU_DBGCSR_OFFS_DSCRATCH1;
 
 // Debug CSRs :: DCSR
-typedef enum int {
+typedef enum bit [31:0] { // cp.2
     SCR1_HDU_DCSR_PRV_BIT_R         = 0,
     SCR1_HDU_DCSR_PRV_BIT_L         = 1,
     SCR1_HDU_DCSR_STEP_BIT          = 2,
@@ -129,7 +129,7 @@ typedef enum int {
     SCR1_HDU_DCSR_XDEBUGVER_BIT_L   = 31
 } type_scr1_hdu_dcsr_bits_e;
 
-//localparam int unsigned SCR1_HDU_DEBUGCSR_DCSR_PRV_WIDTH = SCR1_HDU_DCSR_PRV_BIT_L-SCR1_HDU_DCSR_PRV_BIT_R+1;
+//localparam bit [31:0] unsigned SCR1_HDU_DEBUGCSR_DCSR_PRV_WIDTH = SCR1_HDU_DCSR_PRV_BIT_L-SCR1_HDU_DCSR_PRV_BIT_R+1; // cp.1
 
 typedef struct packed {
     logic [SCR1_HDU_DCSR_XDEBUGVER_BIT_L-SCR1_HDU_DCSR_XDEBUGVER_BIT_R:0]   xdebugver;

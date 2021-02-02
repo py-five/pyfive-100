@@ -42,14 +42,14 @@
   `define SCR1_RVI_EXT
   `define SCR1_RVM_EXT
   `define SCR1_RVC_EXT
-  parameter int unsigned SCR1_MTVEC_BASE_WR_BITS = 26;
+  parameter bit [31:0] SCR1_MTVEC_BASE_WR_BITS = 26; // cp.1
   `define SCR1_MTVEC_MODE_EN
   `define SCR1_FAST_MUL
   `define SCR1_MPRF_RST_EN
   `define SCR1_MCOUNTEN_EN
   `define SCR1_DBG_EN
   `define SCR1_TDU_EN
-  parameter int unsigned SCR1_TDU_TRIG_NUM = 4;
+  parameter bit [31:0] SCR1_TDU_TRIG_NUM = 4; // cp.1
   `define SCR1_TDU_ICOUNT_EN
   `define SCR1_IPIC_EN
   `define SCR1_IPIC_SYNC_EN
@@ -57,14 +57,14 @@
 `elsif  SCR1_CFG_RV32IC_BASE
   `define SCR1_RVI_EXT
   `define SCR1_RVC_EXT
-  parameter int unsigned SCR1_MTVEC_BASE_WR_BITS = 16;
+  parameter bit [31:0] SCR1_MTVEC_BASE_WR_BITS = 16; // cp.1
   `define SCR1_MTVEC_MODE_EN
   `define SCR1_NO_DEC_STAGE
   `define SCR1_MPRF_RST_EN
   `define SCR1_MCOUNTEN_EN
   `define SCR1_DBG_EN
   `define SCR1_TDU_EN
-  parameter int unsigned SCR1_TDU_TRIG_NUM = 2;
+  parameter bit [31:0] SCR1_TDU_TRIG_NUM = 2; // cp.1
   `define SCR1_TDU_ICOUNT_EN
   `define SCR1_IPIC_EN
   `define SCR1_IPIC_SYNC_EN
@@ -72,7 +72,7 @@
 `elsif  SCR1_CFG_RV32EC_MIN
   `define SCR1_RVE_EXT
   `define SCR1_RVC_EXT
-  parameter int unsigned SCR1_MTVEC_BASE_WR_BITS = 0;
+  parameter bit [31:0] SCR1_MTVEC_BASE_WR_BITS = 0; // cp.1
   `define SCR1_NO_DEC_STAGE
   `define SCR1_NO_EXE_STAGE
   `define SCR1_TCM_EN
@@ -92,7 +92,7 @@
 //`define SCR1_RVE_EXT                // enable RV32E base integer instruction set, otherwise RV32I will be used
 `define SCR1_RVM_EXT                // enable standard extension "M" for integer hardware multiplier and divider
 `define SCR1_RVC_EXT                // enable standard extension "C" for compressed instructions
-parameter int unsigned SCR1_MTVEC_BASE_WR_BITS = 26;    // number of writable high-order bits in MTVEC.base field
+parameter bit [31:0] SCR1_MTVEC_BASE_WR_BITS = 26; // cp.1  // number of writable high-order bits in MTVEC.base field
                                                             // legal values are 0 to 26
                                                             // read-only bits are hardwired to reset value
 `define SCR1_MTVEC_MODE_EN          // enable writable MTVEC.mode field to allow vectored irq mode, otherwise only direct mode is possible
@@ -113,7 +113,7 @@ parameter int unsigned SCR1_MTVEC_BASE_WR_BITS = 26;    // number of writable hi
 // Uncore options
 `define SCR1_DBG_EN                 // enable Debug Subsystem (TAPC, DM, SCU, HDU)
 `define SCR1_TDU_EN                 // enable Trigger Debug Unit (hardware breakpoints)
-parameter int unsigned SCR1_TDU_TRIG_NUM = 2;   // number of hardware triggers
+parameter bit [31:0] SCR1_TDU_TRIG_NUM = 2; // cp.1  // number of hardware triggers
 `define SCR1_TDU_ICOUNT_EN          // enable hardware triggers on instruction counter
 `define SCR1_IPIC_EN                // enable Integrated Programmable Interrupt Controller
 `define SCR1_IPIC_SYNC_EN           // enable IPIC synchronizer

@@ -15,15 +15,15 @@
 //`include "scr1_arch_types.svh"
 `include "scr1_csr.svh"
 
-parameter int unsigned  SCR1_TDU_MTRIG_NUM             = SCR1_TDU_TRIG_NUM;
+parameter bit [31:0] SCR1_TDU_MTRIG_NUM             = SCR1_TDU_TRIG_NUM; // cp.1
 `ifdef SCR1_TDU_ICOUNT_EN
-parameter int unsigned  SCR1_TDU_ALLTRIG_NUM           = SCR1_TDU_MTRIG_NUM + 1'b1;
+parameter bit [31:0] SCR1_TDU_ALLTRIG_NUM           = SCR1_TDU_MTRIG_NUM + 1'b1;// cp.1
 `else
-parameter int unsigned  SCR1_TDU_ALLTRIG_NUM           = SCR1_TDU_MTRIG_NUM;
+parameter bit [31:0] SCR1_TDU_ALLTRIG_NUM           = SCR1_TDU_MTRIG_NUM; // cp.1
 `endif
 
-parameter int unsigned  SCR1_TDU_ADDR_W                = `SCR1_XLEN;
-parameter int unsigned  SCR1_TDU_DATA_W                = `SCR1_XLEN;
+parameter bit [31:0] SCR1_TDU_ADDR_W                = `SCR1_XLEN; // cp.1
+parameter bit [31:0] SCR1_TDU_DATA_W                = `SCR1_XLEN; // cp.1
 
 // Register map
 parameter                                     SCR1_CSR_ADDR_TDU_OFFS_W        = 3;
@@ -39,33 +39,33 @@ parameter bit [SCR1_CSR_ADDR_WIDTH-1:0] SCR1_CSR_ADDR_TDU_TDATA2        = SCR1_C
 parameter bit [SCR1_CSR_ADDR_WIDTH-1:0] SCR1_CSR_ADDR_TDU_TINFO         = SCR1_CSR_ADDR_TDU_MBASE + SCR1_CSR_ADDR_TDU_OFFS_TINFO;
 
 // TDATA1
-parameter int unsigned  SCR1_TDU_TDATA1_TYPE_HI        = `SCR1_XLEN-1;
-parameter int unsigned  SCR1_TDU_TDATA1_TYPE_LO        = `SCR1_XLEN-4;
-parameter int unsigned  SCR1_TDU_TDATA1_DMODE          = `SCR1_XLEN-5;
+parameter bit [31:0] SCR1_TDU_TDATA1_TYPE_HI        = `SCR1_XLEN-1; // cp.1
+parameter bit [31:0] SCR1_TDU_TDATA1_TYPE_LO        = `SCR1_XLEN-4; // cp.1
+parameter bit [31:0] SCR1_TDU_TDATA1_DMODE          = `SCR1_XLEN-5; // cp.1
 
 // TDATA1: constant bits values
 parameter bit           SCR1_TDU_TDATA1_DMODE_VAL      = 1'b0;
 
 // MCONTROL: bits number
-parameter int unsigned  SCR1_TDU_MCONTROL_MASKMAX_HI   = `SCR1_XLEN-6;
-parameter int unsigned  SCR1_TDU_MCONTROL_MASKMAX_LO   = `SCR1_XLEN-11;
-parameter int unsigned  SCR1_TDU_MCONTROL_RESERVEDB_HI = `SCR1_XLEN-12;
-parameter int unsigned  SCR1_TDU_MCONTROL_RESERVEDB_LO = 21;
-parameter int unsigned  SCR1_TDU_MCONTROL_HIT          = 20;
-parameter int unsigned  SCR1_TDU_MCONTROL_SELECT       = 19;
-parameter int unsigned  SCR1_TDU_MCONTROL_TIMING       = 18;
-parameter int unsigned  SCR1_TDU_MCONTROL_ACTION_HI    = 17;
-parameter int unsigned  SCR1_TDU_MCONTROL_ACTION_LO    = 12;
-parameter int unsigned  SCR1_TDU_MCONTROL_CHAIN        = 11;
-parameter int unsigned  SCR1_TDU_MCONTROL_MATCH_HI     = 10;
-parameter int unsigned  SCR1_TDU_MCONTROL_MATCH_LO     = 7;
-parameter int unsigned  SCR1_TDU_MCONTROL_M            = 6;
-parameter int unsigned  SCR1_TDU_MCONTROL_RESERVEDA    = 5;
-parameter int unsigned  SCR1_TDU_MCONTROL_S            = 4;
-parameter int unsigned  SCR1_TDU_MCONTROL_U            = 3;
-parameter int unsigned  SCR1_TDU_MCONTROL_EXECUTE      = 2;
-parameter int unsigned  SCR1_TDU_MCONTROL_STORE        = 1;
-parameter int unsigned  SCR1_TDU_MCONTROL_LOAD         = 0;
+parameter bit [31:0] SCR1_TDU_MCONTROL_MASKMAX_HI   = `SCR1_XLEN-6; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_MASKMAX_LO   = `SCR1_XLEN-11; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_RESERVEDB_HI = `SCR1_XLEN-12; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_RESERVEDB_LO = 21; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_HIT          = 20; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_SELECT       = 19; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_TIMING       = 18; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_ACTION_HI    = 17; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_ACTION_LO    = 12; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_CHAIN        = 11; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_MATCH_HI     = 10; // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_MATCH_LO     = 7;  // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_M            = 6;  // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_RESERVEDA    = 5;  // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_S            = 4;  // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_U            = 3;  // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_EXECUTE      = 2;  // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_STORE        = 1;  // cp.1
+parameter bit [31:0] SCR1_TDU_MCONTROL_LOAD         = 0;  // cp.1
 
 // MCONTROL: constant bits values
 parameter bit [SCR1_TDU_TDATA1_TYPE_HI-SCR1_TDU_TDATA1_TYPE_LO:0]
@@ -80,18 +80,18 @@ parameter bit [SCR1_TDU_MCONTROL_MASKMAX_HI-SCR1_TDU_MCONTROL_MASKMAX_LO:0]
 parameter bit           SCR1_TDU_MCONTROL_RESERVEDA_VAL      = 1'b0;
 
 // ICOUNT: bits number
-parameter int unsigned  SCR1_TDU_ICOUNT_DMODE          = `SCR1_XLEN-5;
-parameter int unsigned  SCR1_TDU_ICOUNT_RESERVEDB_HI   = `SCR1_XLEN-6;
-parameter int unsigned  SCR1_TDU_ICOUNT_RESERVEDB_LO   = 25;
-parameter int unsigned  SCR1_TDU_ICOUNT_HIT            = 24;
-parameter int unsigned  SCR1_TDU_ICOUNT_COUNT_HI       = 23;
-parameter int unsigned  SCR1_TDU_ICOUNT_COUNT_LO       = 10;
-parameter int unsigned  SCR1_TDU_ICOUNT_M              = 9;
-parameter int unsigned  SCR1_TDU_ICOUNT_RESERVEDA      = 8;
-parameter int unsigned  SCR1_TDU_ICOUNT_S              = 7;
-parameter int unsigned  SCR1_TDU_ICOUNT_U              = 6;
-parameter int unsigned  SCR1_TDU_ICOUNT_ACTION_HI      = 5;
-parameter int unsigned  SCR1_TDU_ICOUNT_ACTION_LO      = 0;
+parameter bit [31:0] SCR1_TDU_ICOUNT_DMODE          = `SCR1_XLEN-5; // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_RESERVEDB_HI   = `SCR1_XLEN-6; // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_RESERVEDB_LO   = 25; // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_HIT            = 24; // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_COUNT_HI       = 23; // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_COUNT_LO       = 10; // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_M              = 9;  // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_RESERVEDA      = 8;  // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_S              = 7;  // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_U              = 6;  // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_ACTION_HI      = 5;  // cp.1
+parameter bit [31:0] SCR1_TDU_ICOUNT_ACTION_LO      = 0;  // cp.1
 
 // ICOUNT: constant bits values
 parameter bit [SCR1_TDU_TDATA1_TYPE_HI-SCR1_TDU_TDATA1_TYPE_LO:0]

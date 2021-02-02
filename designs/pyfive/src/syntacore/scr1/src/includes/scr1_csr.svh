@@ -140,9 +140,9 @@ parameter bit [`SCR1_XLEN-1:0] SCR1_CSR_MIMPID      = `SCR1_MIMPID;
 
 // MSTATUS
 parameter bit [1:0] SCR1_CSR_MSTATUS_MPP            = 2'b11;
-parameter int unsigned SCR1_CSR_MSTATUS_MIE_OFFSET  = 3;
-parameter int unsigned SCR1_CSR_MSTATUS_MPIE_OFFSET = 7;
-parameter int unsigned SCR1_CSR_MSTATUS_MPP_OFFSET  = 11;
+parameter bit [31:0] SCR1_CSR_MSTATUS_MIE_OFFSET  = 3; // cp.1
+parameter bit [31:0] SCR1_CSR_MSTATUS_MPIE_OFFSET = 7; // cp.1
+parameter bit [31:0] SCR1_CSR_MSTATUS_MPP_OFFSET  = 11; // cp.1
 
 // MTVEC
 // bits [5:0] are always zero
@@ -154,9 +154,9 @@ parameter bit SCR1_CSR_MTVEC_MODE_VECTORED          = 1'b1;
 `endif // SCR1_MTVEC_MODE_EN
 
 // MIE, MIP
-parameter int unsigned SCR1_CSR_MIE_MSIE_OFFSET     = 3;
-parameter int unsigned SCR1_CSR_MIE_MTIE_OFFSET     = 7;
-parameter int unsigned SCR1_CSR_MIE_MEIE_OFFSET     = 11;
+parameter bit [31:0] SCR1_CSR_MIE_MSIE_OFFSET     = 3; // cp.1
+parameter bit [31:0] SCR1_CSR_MIE_MTIE_OFFSET     = 7; // cp.1
+parameter bit [31:0] SCR1_CSR_MIE_MEIE_OFFSET     = 11; // cp.1
 
 `ifdef SCR1_MCOUNTEN_EN
 // MCOUNTEN
@@ -169,9 +169,9 @@ typedef logic [`SCR1_XLEN-2:0]      type_scr1_csr_mcause_ec_v;
 
 // MCYCLE, MINSTRET
 `ifdef SCR1_CSR_REDUCED_CNT
-parameter int unsigned SCR1_CSR_COUNTERS_WIDTH      = 32;
+parameter bit [31:0] SCR1_CSR_COUNTERS_WIDTH      = 32; // cp.1
 `else // ~SCR1_CSR_REDUCED_CNT
-parameter int unsigned SCR1_CSR_COUNTERS_WIDTH      = 64;
+parameter bit [31:0] SCR1_CSR_COUNTERS_WIDTH      = 64; // cp.1
 `endif // ~SCR1_CSR_REDUCED_CNT
 
 // HPM

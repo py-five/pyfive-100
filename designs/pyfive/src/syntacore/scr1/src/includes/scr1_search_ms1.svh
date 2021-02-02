@@ -50,7 +50,7 @@ begin
     logic [4:0]     res;
 
     // Stage 1
-    for (int unsigned i=0; i<16; ++i) begin
+    for (int i=0; i<16; i=i+1) begin // cp.4
         type_scr1_search_one_2_s tmp;
         tmp = scr1_lead_zeros_cnt_2(din[(i+1)*2-1-:2]);
         stage1_vd[i]  = tmp.vd;
@@ -58,7 +58,7 @@ begin
     end
 
     // Stage 2
-    for (int unsigned i=0; i<8; ++i) begin
+    for (int i=0; i<8;i=i+1) begin // cp.4
         type_scr1_search_one_2_s tmp;
         tmp = scr1_lead_zeros_cnt_2(stage1_vd[(i+1)*2-1-:2]);
         stage2_vd[i]  = tmp.vd;
@@ -66,7 +66,7 @@ begin
     end
 
     // Stage 3
-    for (int unsigned i=0; i<4; ++i) begin
+    for (int i=0; i<4; ++i) begin // cp.4
         type_scr1_search_one_2_s tmp;
         tmp = scr1_lead_zeros_cnt_2(stage2_vd[(i+1)*2-1-:2]);
         stage3_vd[i]  = tmp.vd;
@@ -74,7 +74,7 @@ begin
     end
 
     // Stage 4
-    for (int unsigned i=0; i<2; ++i) begin
+    for (int i=0; i<2; ++i) begin // cp.4
         type_scr1_search_one_2_s tmp;
         tmp = scr1_lead_zeros_cnt_2(stage3_vd[(i+1)*2-1-:2]);
         stage4_vd[i]  = tmp.vd;

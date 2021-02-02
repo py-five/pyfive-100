@@ -13,11 +13,11 @@
 //==============================================================================
 // Parameters
 //==============================================================================
-localparam int unsigned                         SCR1_TAP_STATE_WIDTH            = 4;
-localparam int unsigned                         SCR1_TAP_INSTRUCTION_WIDTH      = 5;
-localparam int unsigned                         SCR1_TAP_DR_IDCODE_WIDTH        = 32;
-localparam int unsigned                         SCR1_TAP_DR_BLD_ID_WIDTH        = 32;
-localparam int unsigned                         SCR1_TAP_DR_BYPASS_WIDTH        = 1;
+localparam bit [31:0]                  SCR1_TAP_STATE_WIDTH            = 4; // cp.1
+localparam bit [31:0]                  SCR1_TAP_INSTRUCTION_WIDTH      = 5; // cp.1
+localparam bit [31:0]                  SCR1_TAP_DR_IDCODE_WIDTH        = 32;// cp.1
+localparam bit [31:0]                  SCR1_TAP_DR_BLD_ID_WIDTH        = 32;// cp.1
+localparam bit [31:0]                  SCR1_TAP_DR_BYPASS_WIDTH        = 1;
 //localparam bit [SCR1_TAP_DR_IDCODE_WIDTH-1:0]   SCR1_TAP_IDCODE_RISCV_SC        = `SCR1_TAP_IDCODE;
 localparam bit [SCR1_TAP_DR_BLD_ID_WIDTH-1:0]   SCR1_TAP_BLD_ID_VALUE           = `SCR1_MIMPID;
 

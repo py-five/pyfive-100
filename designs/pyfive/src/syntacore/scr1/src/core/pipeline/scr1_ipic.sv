@@ -58,12 +58,12 @@ module scr1_ipic
 //-------------------------------------------------------------------------------
 // Local types declaration
 //-------------------------------------------------------------------------------
-typedef struct {
+typedef struct packed { // cp.6
     logic                                   vd;
     logic                                   idx;
 } type_scr1_search_one_2_s;
 
-typedef struct {
+typedef struct packed { // cp.6
     logic                                   vd;
     logic   [SCR1_IRQ_VECT_WIDTH-1:0]       idx;
 } type_scr1_search_one_16_s;

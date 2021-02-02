@@ -7,7 +7,7 @@
 
 `ifdef SCR1_DBG_EN
 module scr1_tapc_shift_reg #(
-    parameter   int unsigned            SCR1_WIDTH       = 8,   // Register width, bits
+    parameter   bit [31:0]              SCR1_WIDTH       = 8,  // cp.1 // Register width, bits
     parameter   logic [SCR1_WIDTH-1:0]  SCR1_RESET_VALUE = '0   // Register's value after reset
 ) (
     input  logic                    clk,            // Clock

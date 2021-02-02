@@ -74,7 +74,7 @@ module scr1_scu (
 //------------------------------------------------------------------------------
 // Local Parameters
 //======================================================================================================================
-localparam int unsigned SCR1_SCU_RST_SYNC_STAGES_NUM        = 2;
+localparam bit [31:0] SCR1_SCU_RST_SYNC_STAGES_NUM        = 2;// cp.1
 
 //------------------------------------------------------------------------------
 // Local Signals
@@ -187,7 +187,7 @@ always_ff @(posedge clk, negedge pwrup_rst_n_sync) begin
 end
 
 assign tapc_shift_next = tapc_dr_cap_req  ? tapc_shadow_ff
-                       : tapc_dr_shft_req ? {tapcsync2scu_ch_tdi_i, tapc_shift_ff[$bits(type_scr1_scu_sysctrl_dr_s)-1:1]}
+                       : tapc_dr_shft_req ? {tapcsync2scu_ch_tdi_i, tapc_shift_ff[SCR1_SCU_DR_SYSCTRL_WIDTH-1:1]}// cp.5
                                           : tapc_shift_ff;
 
 // TAPC shadow register
@@ -324,7 +324,7 @@ always_ff @(posedge clk, negedge pwrup_rst_n_sync) begin
     if (~pwrup_rst_n_sync) begin
         scu_sticky_sts_ff <= '0;
     end else begin
-        for (int unsigned i = 0; i < $bits(type_scr1_scu_sysctrl_status_reg_s); ++i) begin
+        for (int i = 0; i < SCR1_SCU_SYSCTRL_STATUS_REG_WIDTH ; i=i+1) begin // cp.4
             if (scu_status_ff_posedge[i]) begin
                 scu_sticky_sts_ff[i] <= 1'b1;
             end else if (scu_sticky_sts_wr_req) begin

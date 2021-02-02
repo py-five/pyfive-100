@@ -23,19 +23,19 @@
 typedef logic [`SCR1_XLEN-1:0]  type_scr1_mprf_v;
 typedef logic [`SCR1_XLEN-1:0]  type_scr1_pc_v;
 
-parameter int unsigned  SCR1_CSR_ADDR_WIDTH             = 12;
-parameter int unsigned  SCR1_CSR_MTVEC_BASE_ZERO_BITS   = 6;
-parameter int unsigned  SCR1_CSR_MTVEC_BASE_VAL_BITS    = `SCR1_XLEN-SCR1_CSR_MTVEC_BASE_ZERO_BITS;
+parameter bit [31:0] SCR1_CSR_ADDR_WIDTH             = 12; // cp.1
+parameter bit [31:0] SCR1_CSR_MTVEC_BASE_ZERO_BITS   = 6; // cp.1
+parameter bit [31:0] SCR1_CSR_MTVEC_BASE_VAL_BITS    = `SCR1_XLEN-SCR1_CSR_MTVEC_BASE_ZERO_BITS; // cp.1
 parameter bit [`SCR1_XLEN-1:SCR1_CSR_MTVEC_BASE_ZERO_BITS]  SCR1_CSR_MTVEC_BASE_WR_RST_VAL    =
                                       SCR1_CSR_MTVEC_BASE_VAL_BITS'(SCR1_ARCH_MTVEC_BASE >> SCR1_CSR_MTVEC_BASE_ZERO_BITS);
-parameter int unsigned  SCR1_CSR_MTVEC_BASE_RO_BITS = (`SCR1_XLEN-(SCR1_CSR_MTVEC_BASE_ZERO_BITS+SCR1_MTVEC_BASE_WR_BITS));
+parameter bit [31:0] SCR1_CSR_MTVEC_BASE_RO_BITS = (`SCR1_XLEN-(SCR1_CSR_MTVEC_BASE_ZERO_BITS+SCR1_MTVEC_BASE_WR_BITS)); // cp.1
 
 `define SCR1_MTVAL_ILLEGAL_INSTR_EN
 
 //-------------------------------------------------------------------------------
 // Exception and IRQ codes
 //-------------------------------------------------------------------------------
-parameter int unsigned SCR1_EXC_CODE_WIDTH_E    = 4;
+parameter bit [31:0] SCR1_EXC_CODE_WIDTH_E    = 4; // cp.1
 
 // Exceptions
 typedef enum logic [SCR1_EXC_CODE_WIDTH_E-1:0] {

@@ -61,8 +61,8 @@ logic                                       trst_n_int;       // Sync reset sign
 // TAPC FSM signals
 //------------------------------------------------------------------------------
 
-type_scr1_tap_state_e                       tap_fsm_ff;       // TAP's current state
-type_scr1_tap_state_e                       tap_fsm_next;     // TAP's next state
+logic [SCR1_TAP_STATE_WIDTH-1:0]            tap_fsm_ff;       // TAP's current state - cp.7
+logic [SCR1_TAP_STATE_WIDTH-1:0]            tap_fsm_next;     // TAP's next state - cp.7
 
 // Control signals
 logic                                       tap_fsm_reset;

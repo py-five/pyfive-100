@@ -319,12 +319,12 @@ assign scu_status_ff_posedge = scu_status_ff & ~scu_status_ff_dly;
 // STICKY_STATUS register
 //------------------------------------------------------------------------------
 // For every output reset signal shows if it was asserted since the last bit clearing
-
+integer i;
 always_ff @(posedge clk, negedge pwrup_rst_n_sync) begin
     if (~pwrup_rst_n_sync) begin
         scu_sticky_sts_ff <= '0;
     end else begin
-        for (int i = 0; i < SCR1_SCU_SYSCTRL_STATUS_REG_WIDTH ; i=i+1) begin // cp.4
+        for (i = 0; i < SCR1_SCU_SYSCTRL_STATUS_REG_WIDTH ; i=i+1) begin // cp.4
             if (scu_status_ff_posedge[i]) begin
                 scu_sticky_sts_ff[i] <= 1'b1;
             end else if (scu_sticky_sts_wr_req) begin

@@ -24,25 +24,25 @@ localparam bit [SCR1_TAP_DR_BLD_ID_WIDTH-1:0]   SCR1_TAP_BLD_ID_VALUE           
 //==============================================================================
 // Types
 //==============================================================================
-typedef enum logic [SCR1_TAP_STATE_WIDTH-1:0] {
-    SCR1_TAP_STATE_RESET,
-    SCR1_TAP_STATE_IDLE,
-    SCR1_TAP_STATE_DR_SEL_SCAN,
-    SCR1_TAP_STATE_DR_CAPTURE,
-    SCR1_TAP_STATE_DR_SHIFT,
-    SCR1_TAP_STATE_DR_EXIT1,
-    SCR1_TAP_STATE_DR_PAUSE,
-    SCR1_TAP_STATE_DR_EXIT2,
-    SCR1_TAP_STATE_DR_UPDATE,
-    SCR1_TAP_STATE_IR_SEL_SCAN,
-    SCR1_TAP_STATE_IR_CAPTURE,
-    SCR1_TAP_STATE_IR_SHIFT,
-    SCR1_TAP_STATE_IR_EXIT1,
-    SCR1_TAP_STATE_IR_PAUSE,
-    SCR1_TAP_STATE_IR_EXIT2,
-    SCR1_TAP_STATE_IR_UPDATE,
-    SCR1_TAP_STATE_XXX       = 'X
-} type_scr1_tap_state_e;
+//typedef enum logic [SCR1_TAP_STATE_WIDTH-1:0] { - cp.7
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_RESET        = 0;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IDLE         = 1;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_DR_SEL_SCAN  = 2;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_DR_CAPTURE   = 3;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_DR_SHIFT     = 4;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_DR_EXIT1     = 5;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_DR_PAUSE     = 6;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_DR_EXIT2     = 7;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_DR_UPDATE    = 8;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IR_SEL_SCAN  = 9;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IR_CAPTURE   = 10;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IR_SHIFT     = 11;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IR_EXIT1     = 12;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IR_PAUSE     = 13;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IR_EXIT2     = 14;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_IR_UPDATE    = 15;
+localparam bit [SCR1_TAP_STATE_WIDTH-1:0]    SCR1_TAP_STATE_XXX          = 'X;
+//} type_scr1_tap_state_e;
 
 typedef enum logic [SCR1_TAP_INSTRUCTION_WIDTH - 1:0] {
     SCR1_TAP_INSTR_IDCODE            = 5'h01,

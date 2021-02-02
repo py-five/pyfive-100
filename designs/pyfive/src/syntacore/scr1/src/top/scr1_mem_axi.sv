@@ -23,7 +23,7 @@ module scr1_mem_axi
     output  logic                           core_idle,
     output  logic                           core_req_ack,
     input   logic                           core_req,
-    input   type_scr1_mem_cmd_e             core_cmd,
+    input   logic                           core_cmd, // cp.7
     input   type_scr1_mem_width_e           core_width,
     input   logic [SCR1_ADDR_WIDTH-1:0]     core_addr,
     input   logic [31:0]                    core_wdata,

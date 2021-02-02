@@ -14,7 +14,7 @@ module scr1_dmem_ahb (
     // Core Interface
     output  logic                           dmem_req_ack,
     input   logic                           dmem_req,
-    input   type_scr1_mem_cmd_e             dmem_cmd,
+    input   logic                           dmem_cmd, // cp.7
     input   type_scr1_mem_width_e           dmem_width,
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_addr,
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_wdata,

@@ -20,7 +20,7 @@ module scr1_dmem_router
     // Core interface
     output  logic                           dmem_req_ack,
     input   logic                           dmem_req,
-    input   type_scr1_mem_cmd_e             dmem_cmd,
+    input   logic                           dmem_cmd, // cp.7
     input   type_scr1_mem_width_e           dmem_width,
     input   logic [`SCR1_DMEM_AWIDTH-1:0]   dmem_addr,
     input   logic [`SCR1_DMEM_DWIDTH-1:0]   dmem_wdata,
@@ -30,7 +30,7 @@ module scr1_dmem_router
     // PORT0 interface
     input   logic                           port0_req_ack,
     output  logic                           port0_req,
-    output  type_scr1_mem_cmd_e             port0_cmd,
+    output  logic                           port0_cmd, // cp.7
     output  type_scr1_mem_width_e           port0_width,
     output  logic [`SCR1_DMEM_AWIDTH-1:0]   port0_addr,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]   port0_wdata,
@@ -40,7 +40,7 @@ module scr1_dmem_router
     // PORT1 interface
     input   logic                           port1_req_ack,
     output  logic                           port1_req,
-    output  type_scr1_mem_cmd_e             port1_cmd,
+    output  logic                           port1_cmd, // cp.7
     output  type_scr1_mem_width_e           port1_width,
     output  logic [`SCR1_DMEM_AWIDTH-1:0]   port1_addr,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]   port1_wdata,
@@ -50,7 +50,7 @@ module scr1_dmem_router
     // PORT2 interface
     input   logic                           port2_req_ack,
     output  logic                           port2_req,
-    output  type_scr1_mem_cmd_e             port2_cmd,
+    output  logic                           port2_cmd, // cp.7
     output  type_scr1_mem_width_e           port2_width,
     output  logic [`SCR1_DMEM_AWIDTH-1:0]   port2_addr,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]   port2_wdata,

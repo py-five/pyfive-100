@@ -31,7 +31,7 @@ module scr1_pipe_top (
 
     // Instruction Memory Interface
     output  logic                                       pipe2imem_req_o,            // IMEM request
-    output  type_scr1_mem_cmd_e                         pipe2imem_cmd_o,            // IMEM command
+    output  logic                                       pipe2imem_cmd_o,            // IMEM command - cp.7
     output  logic [`SCR1_IMEM_AWIDTH-1:0]               pipe2imem_addr_o,           // IMEM address
     input   logic                                       imem2pipe_req_ack_i,        // IMEM request acknowledge
     input   logic [`SCR1_IMEM_DWIDTH-1:0]               imem2pipe_rdata_i,          // IMEM read data
@@ -39,7 +39,7 @@ module scr1_pipe_top (
 
     // Data Memory Interface
     output  logic                                       pipe2dmem_req_o,            // DMEM request
-    output  type_scr1_mem_cmd_e                         pipe2dmem_cmd_o,            // DMEM command
+    output  logic                                       pipe2dmem_cmd_o,            // DMEM command
     output  type_scr1_mem_width_e                       pipe2dmem_width_o,          // DMEM data width
     output  logic [`SCR1_DMEM_AWIDTH-1:0]               pipe2dmem_addr_o,           // DMEM address
     output  logic [`SCR1_DMEM_DWIDTH-1:0]               pipe2dmem_wdata_o,          // DMEM write data

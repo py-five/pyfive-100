@@ -11,11 +11,11 @@
 //-------------------------------------------------------------------------------
 // Memory command enum
 //-------------------------------------------------------------------------------
-typedef enum logic {
-    SCR1_MEM_CMD_RD     = 1'b0,
-    SCR1_MEM_CMD_WR     = 1'b1,
-    SCR1_MEM_CMD_ERROR  = 'x
-} type_scr1_mem_cmd_e;
+//typedef enum logic { - cp7
+localparam bit    SCR1_MEM_CMD_RD     = 1'b0;
+localparam bit    SCR1_MEM_CMD_WR     = 1'b1;
+localparam bit    SCR1_MEM_CMD_ERROR  = 'x;
+//} type_scr1_mem_cmd_e;
 
 //-------------------------------------------------------------------------------
 // Memory data width enum

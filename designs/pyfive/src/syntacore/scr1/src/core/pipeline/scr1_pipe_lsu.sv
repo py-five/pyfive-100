@@ -51,7 +51,7 @@ module scr1_pipe_lsu (
 
     // LSU <-> DMEM interface
     output  logic                               lsu2dmem_req_o,             // Data memory request
-    output  type_scr1_mem_cmd_e                 lsu2dmem_cmd_o,             // Data memory command (READ/WRITE)
+    output  logic                               lsu2dmem_cmd_o,             // Data memory command (READ/WRITE) - cp.7
     output  type_scr1_mem_width_e               lsu2dmem_width_o,           // Data memory data width
     output  logic [`SCR1_DMEM_AWIDTH-1:0]       lsu2dmem_addr_o,            // Data memory address
     output  logic [`SCR1_DMEM_DWIDTH-1:0]       lsu2dmem_wdata_o,           // Data memory write data

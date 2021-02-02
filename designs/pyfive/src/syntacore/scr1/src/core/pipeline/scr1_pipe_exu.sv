@@ -103,7 +103,7 @@ module scr1_pipe_exu (
 
     // EXU <-> DMEM interface
     output  logic                               exu2dmem_req_o,             // Data memory request
-    output  type_scr1_mem_cmd_e                 exu2dmem_cmd_o,             // Data memory command
+    output  logic                               exu2dmem_cmd_o,             // Data memory command - cp.7
     output  type_scr1_mem_width_e               exu2dmem_width_o,           // Data memory width
     output  logic [`SCR1_DMEM_AWIDTH-1:0]       exu2dmem_addr_o,            // Data memory address
     output  logic [`SCR1_DMEM_DWIDTH-1:0]       exu2dmem_wdata_o,           // Data memory write data

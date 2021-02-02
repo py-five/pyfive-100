@@ -1,0 +1,12 @@
+[submodule "dependencies/riscv-tests"]
+	path = designs/pyfive/src/syntacore/scr1/dependencies/riscv-tests
+	url = https://github.com/riscv/riscv-tests
+	branch= master
+[submodule "dependencies/riscv-compliance"]
+	path = designs/pyfive/src/syntacore/scr1/dependencies/riscv-compliance
+	url = https://github.com/riscv/riscv-compliance
+	branch= master
+[submodule "dependencies/coremark"]
+	path = designs/pyfive/src/syntacore/scr1/dependencies/coremark
+	url = https://github.com/eembc/coremark
+	branch= master

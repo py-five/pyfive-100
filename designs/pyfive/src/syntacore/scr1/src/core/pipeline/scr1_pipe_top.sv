@@ -53,7 +53,7 @@ module scr1_pipe_top (
     // DM <-> Pipeline: HART Run Control i/f
     input  logic                                        dm2pipe_active_i,           // Debug Module active flag
     input  logic                                        dm2pipe_cmd_req_i,          // Request from Debug Module
-    input  type_scr1_hdu_dbgstates_e                    dm2pipe_cmd_i,              // Command from Debug Module
+    input  logic [1:0]                                  dm2pipe_cmd_i,              // Command from Debug Module - cp.7
     output logic                                        pipe2dm_cmd_resp_o,         // Response to Debug Module
     output logic                                        pipe2dm_cmd_rcode_o,        // Debug Module return code: 0 - Ok; 1 - Error
     output logic                                        pipe2dm_hart_event_o,       // HART event flag

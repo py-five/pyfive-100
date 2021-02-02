@@ -160,8 +160,8 @@ parameter bit [31:0] SCR1_CSR_MIE_MEIE_OFFSET     = 11; // cp.1
 
 `ifdef SCR1_MCOUNTEN_EN
 // MCOUNTEN
-parameter int unsigned SCR1_CSR_MCOUNTEN_CY_OFFSET  = 0;
-parameter int unsigned SCR1_CSR_MCOUNTEN_IR_OFFSET  = 2;
+parameter bit [31:0] SCR1_CSR_MCOUNTEN_CY_OFFSET  = 0; // cp.1
+parameter bit [31:0] SCR1_CSR_MCOUNTEN_IR_OFFSET  = 2; // cp.1
 `endif // SCR1_MCOUNTEN_EN
 
 // MCAUSE

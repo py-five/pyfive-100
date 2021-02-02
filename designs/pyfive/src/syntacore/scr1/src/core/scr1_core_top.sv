@@ -82,7 +82,7 @@ module scr1_core_top (
 //-------------------------------------------------------------------------------
 // Local parameters
 //-------------------------------------------------------------------------------
-localparam int unsigned SCR1_CORE_TOP_RST_SYNC_STAGES_NUM               = 2;
+localparam bit [31:0] SCR1_CORE_TOP_RST_SYNC_STAGES_NUM               = 2; // cp.1
 
 //-------------------------------------------------------------------------------
 // Local signals declaration
@@ -149,7 +149,7 @@ logic                                           hart_rst_n;
 // HART Run Control i/f
 logic                                           dm_active;
 logic                                           dm_cmd_req;
-type_scr1_hdu_dbgstates_e                       dm_cmd;
+logic [1:0]                                     dm_cmd; // cp.7
 logic                                           dm_cmd_resp;
 logic                                           dm_cmd_resp_qlfy;
 logic                                           dm_cmd_rcode;

@@ -61,7 +61,7 @@ module scr1_dm (
     output logic                                    hart_rst_n_o,               // HART reset output
     output logic                                    dm2pipe_active_o,           // Debug Module active flag
     output logic                                    dm2pipe_cmd_req_o,          // Request to pipe
-    output type_scr1_hdu_dbgstates_e                dm2pipe_cmd_o,              // Command to pipe
+    output logic [1:0]                              dm2pipe_cmd_o,              // Command to pipe - cp.1
     input  logic                                    pipe2dm_cmd_resp_i,         // Response to Debug Module
     input  logic                                    pipe2dm_cmd_rcode_i,        // HART Command return code: 0 - Ok; 1 - Error
     input  logic                                    pipe2dm_hart_event_i,       // HART event flag
@@ -414,8 +414,8 @@ logic                                             hart_pbuf_ebreak_next;
 logic                                             hart_cmd_req_ff;
 logic                                             hart_cmd_req_next;
 
-type_scr1_hdu_dbgstates_e                         hart_cmd_ff;
-type_scr1_hdu_dbgstates_e                         hart_cmd_next;
+logic [1:0]                                       hart_cmd_ff; // cp.7
+logic [1:0]                                       hart_cmd_next; // cp.7
 
 // HART state signals
 //------------------------------------------------------------------------------

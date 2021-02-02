@@ -30,14 +30,14 @@ localparam bit [31:0] SCR1_HDU_CORE_INSTR_WIDTH        = 32; // cp.1
 // Types
 //==============================================================================
 
-// HART Debug States:
-typedef enum logic [1:0] {
-    SCR1_HDU_DBGSTATE_RESET         = 2'b00,
-    SCR1_HDU_DBGSTATE_RUN           = 2'b01,
-    SCR1_HDU_DBGSTATE_DHALTED       = 2'b10,
-    SCR1_HDU_DBGSTATE_DRUN          = 2'b11,
-    SCR1_HDU_DBGSTATE_XXX           = 'X
-} type_scr1_hdu_dbgstates_e;
+// HART Debug States: - cp.7
+//typedef enum logic [1:0] {
+localparam   SCR1_HDU_DBGSTATE_RESET         = 2'b00;
+localparam   SCR1_HDU_DBGSTATE_RUN           = 2'b01;
+localparam   SCR1_HDU_DBGSTATE_DHALTED       = 2'b10;
+localparam   SCR1_HDU_DBGSTATE_DRUN          = 2'b11;
+localparam   SCR1_HDU_DBGSTATE_XXX           = 'X;
+//} type_scr1_hdu_dbgstates_e;
 
 typedef enum logic [1:0] {
     SCR1_HDU_PBUFSTATE_IDLE          = 2'b00,
@@ -63,7 +63,7 @@ typedef struct packed {
     //logic                               reset_n;
     logic                               except;
     logic                               ebreak;
-    type_scr1_hdu_dbgstates_e           dbg_state;
+    logic [1:0]                         dbg_state; // cp.7
 } type_scr1_hdu_hartstatus_s;
 
 // Debug Mode Redirection control:

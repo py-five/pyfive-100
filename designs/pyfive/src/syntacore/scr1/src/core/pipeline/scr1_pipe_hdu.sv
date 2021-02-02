@@ -56,7 +56,7 @@ module scr1_pipe_hdu #(parameter HART_PBUF_INSTR_REGOUT_EN = 1'b1) (
     // HDU <-> DM i/f
     // HART Run Control i/f
     input  logic                                        dm2hdu_cmd_req_i,           // DM-HART Command request
-    input  type_scr1_hdu_dbgstates_e                    dm2hdu_cmd_i,               // DM-HART Command
+    input  logic [1:0]                                  dm2hdu_cmd_i,               // DM-HART Command - cp.7
     output logic                                        hdu2dm_cmd_resp_o,          // DM-HART Command response
     output logic                                        hdu2dm_cmd_rcode_o,         // DM-HART Command return code: 0 - Ok; 1 - Error
     output logic                                        hdu2dm_hart_event_o,        // DM-HART Event: 1 if HART debug state changed
@@ -139,8 +139,8 @@ logic                                               dm_cmd_dhalted;
 logic                                               dm_cmd_drun;
 
 // Debug state FSM signals
-type_scr1_hdu_dbgstates_e                           dbg_state;
-type_scr1_hdu_dbgstates_e                           dbg_state_next;
+logic [1:0]                                         dbg_state; // cp.7
+logic [1:0]                                         dbg_state_next; // cp.7
 logic                                               dbg_state_dhalted;
 logic                                               dbg_state_drun;
 logic                                               dbg_state_run;

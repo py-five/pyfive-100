@@ -116,13 +116,13 @@ typedef enum logic [2:0] {
     DHI_STATE_RESUME_RUN
 } type_scr1_dhi_fsm_e;
 
-typedef enum logic [SCR1_DBG_ABSTRACTCS_CMDERR_WDTH:0] {
-    ABS_ERR_NONE      = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d0),
-    ABS_ERR_BUSY      = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d1),
-    ABS_ERR_CMD       = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d2),
-    ABS_ERR_EXCEPTION = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d3),
-    ABS_ERR_NOHALT    = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d4)
-} type_scr1_abs_err_e;
+//typedef enum logic [SCR1_DBG_ABSTRACTCS_CMDERR_WDTH:0] {
+localparam    ABS_ERR_NONE      = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d0);
+localparam    ABS_ERR_BUSY      = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d1);
+localparam    ABS_ERR_CMD       = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d2);
+localparam    ABS_ERR_EXCEPTION = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d3);
+localparam    ABS_ERR_NOHALT    = (SCR1_DBG_ABSTRACTCS_CMDERR_WDTH+1)'('d4);
+//} type_scr1_abs_err_e;
 
 
 //------------------------------------------------------------------------------
@@ -366,8 +366,8 @@ logic                                             abs_err_acc_busy_upd;
 logic                                             abs_err_acc_busy_ff;
 logic                                             abs_err_acc_busy_next;
 
-type_scr1_abs_err_e                               abstractcs_cmderr_ff;
-type_scr1_abs_err_e                               abstractcs_cmderr_next;
+logic [SCR1_DBG_ABSTRACTCS_CMDERR_WDTH:0]         abstractcs_cmderr_ff; // cp.7
+logic [SCR1_DBG_ABSTRACTCS_CMDERR_WDTH:0]         abstractcs_cmderr_next; // cp.7
 
 // Abstract instruction signals
 //------------------------------------------------------------------------------
@@ -1132,9 +1132,9 @@ always_comb begin
 
         ABS_STATE_ERR: begin
             if (dmi_req_abstractcs & dmi2dm_wr_i) begin
-                abstractcs_cmderr_next = type_scr1_abs_err_e'(logic'(abstractcs_cmderr_ff)
+                abstractcs_cmderr_next = abstractcs_cmderr_ff  // cp.7
                                        & (~dmi2dm_wdata_i[SCR1_DBG_ABSTRACTCS_CMDERR_HI:
-                                                          SCR1_DBG_ABSTRACTCS_CMDERR_LO]));
+                                                          SCR1_DBG_ABSTRACTCS_CMDERR_LO]);
             end
         end
     endcase

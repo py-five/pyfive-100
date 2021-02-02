@@ -19,7 +19,7 @@ module scr1_dmem_ahb (
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_addr,
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_wdata,
     output  logic   [SCR1_AHB_WIDTH-1:0]    dmem_rdata,
-    output  type_scr1_mem_resp_e            dmem_resp,
+    output  logic  [1:0]                    dmem_resp, // cp.7
 
     // AHB Interface
     output  logic   [3:0]                   hprot,

@@ -43,7 +43,7 @@ module scr1_pipe_ifu
     output  logic                                   ifu2imem_cmd_o,             // Instruction memory command (READ/WRITE) - cp.7
     output  logic [`SCR1_IMEM_AWIDTH-1:0]           ifu2imem_addr_o,            // Instruction memory address
     input   logic [`SCR1_IMEM_DWIDTH-1:0]           imem2ifu_rdata_i,           // Instruction memory read data
-    input   type_scr1_mem_resp_e                    imem2ifu_resp_i,            // Instruction memory response
+    input   logic [1:0]                             imem2ifu_resp_i,            // Instruction memory response - cp.7
 
     // IFU <-> EXU New PC interface
     input   logic                                   exu2ifu_pc_new_req_i,       // New PC request (jumps, branches, traps etc)

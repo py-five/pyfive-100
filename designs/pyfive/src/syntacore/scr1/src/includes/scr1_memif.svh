@@ -30,11 +30,11 @@ typedef enum logic[1:0] {
 //-------------------------------------------------------------------------------
 // Memory response enum
 //-------------------------------------------------------------------------------
-typedef enum logic[1:0] {
-    SCR1_MEM_RESP_NOTRDY    = 2'b00,
-    SCR1_MEM_RESP_RDY_OK    = 2'b01,
-    SCR1_MEM_RESP_RDY_ER    = 2'b10,
-    SCR1_MEM_RESP_ERROR     = 'x
-} type_scr1_mem_resp_e;
+//typedef enum logic[1:0] { - cp.7
+localparam bit [1:0]   SCR1_MEM_RESP_NOTRDY    = 2'b00;
+localparam bit [1:0]   SCR1_MEM_RESP_RDY_OK    = 2'b01;
+localparam bit [1:0]   SCR1_MEM_RESP_RDY_ER    = 2'b10;
+localparam bit [1:0]   SCR1_MEM_RESP_ERROR     = 'x;
+//} type_scr1_mem_resp_e;
 
 `endif // SCR1_MEMIF_SVH

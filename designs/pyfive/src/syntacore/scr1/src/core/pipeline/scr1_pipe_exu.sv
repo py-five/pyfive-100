@@ -109,7 +109,7 @@ module scr1_pipe_exu (
     output  logic [`SCR1_DMEM_DWIDTH-1:0]       exu2dmem_wdata_o,           // Data memory write data
     input   logic                               dmem2exu_req_ack_i,         // Data memory request acknowledge
     input   logic [`SCR1_DMEM_DWIDTH-1:0]       dmem2exu_rdata_i,           // Data memory read data
-    input   type_scr1_mem_resp_e                dmem2exu_resp_i,            // Data memory response
+    input   logic [1:0]                         dmem2exu_resp_i,            // Data memory response - cp.7
 
     // EXU control
     output  logic                               exu2pipe_exc_req_o,         // Exception on last instruction

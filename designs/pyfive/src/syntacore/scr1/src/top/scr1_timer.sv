@@ -20,7 +20,7 @@ module scr1_timer (
     input   logic [`SCR1_DMEM_DWIDTH-1:0]           dmem_wdata,
     output  logic                                   dmem_req_ack,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]           dmem_rdata,
-    output  type_scr1_mem_resp_e                    dmem_resp,
+    output  logic [1:0]                             dmem_resp, // cp.7
 
     // Timer interface
     output  logic [63:0]                            timer_val,

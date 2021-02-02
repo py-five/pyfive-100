@@ -35,7 +35,7 @@ module scr1_pipe_top (
     output  logic [`SCR1_IMEM_AWIDTH-1:0]               pipe2imem_addr_o,           // IMEM address
     input   logic                                       imem2pipe_req_ack_i,        // IMEM request acknowledge
     input   logic [`SCR1_IMEM_DWIDTH-1:0]               imem2pipe_rdata_i,          // IMEM read data
-    input   type_scr1_mem_resp_e                        imem2pipe_resp_i,           // IMEM response
+    input   logic [1:0]                                 imem2pipe_resp_i,           // IMEM response - cp.7
 
     // Data Memory Interface
     output  logic                                       pipe2dmem_req_o,            // DMEM request
@@ -45,7 +45,7 @@ module scr1_pipe_top (
     output  logic [`SCR1_DMEM_DWIDTH-1:0]               pipe2dmem_wdata_o,          // DMEM write data
     input   logic                                       dmem2pipe_req_ack_i,        // DMEM request acknowledge
     input   logic [`SCR1_DMEM_DWIDTH-1:0]               dmem2pipe_rdata_i,          // DMEM read data
-    input   type_scr1_mem_resp_e                        dmem2pipe_resp_i,           // DMEM response
+    input   logic [1:0]                                 dmem2pipe_resp_i,           // DMEM response - cp.7
 
 `ifdef SCR1_DBG_EN
     // Debug interface:

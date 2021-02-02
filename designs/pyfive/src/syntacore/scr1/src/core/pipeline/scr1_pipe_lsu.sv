@@ -57,7 +57,7 @@ module scr1_pipe_lsu (
     output  logic [`SCR1_DMEM_DWIDTH-1:0]       lsu2dmem_wdata_o,           // Data memory write data
     input   logic                               dmem2lsu_req_ack_i,         // Data memory request acknowledge
     input   logic [`SCR1_DMEM_DWIDTH-1:0]       dmem2lsu_rdata_i,           // Data memory read data
-    input   type_scr1_mem_resp_e                dmem2lsu_resp_i             // Data memory response
+    input   logic [1:0]                         dmem2lsu_resp_i             // Data memory response - cp.7
 );
 
 //------------------------------------------------------------------------------

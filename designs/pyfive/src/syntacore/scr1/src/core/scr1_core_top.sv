@@ -66,7 +66,7 @@ module scr1_core_top (
     output  logic                                   core2imem_cmd_o,            // IMEM command - cp.7
     output  logic [`SCR1_IMEM_AWIDTH-1:0]           core2imem_addr_o,           // IMEM address
     input   logic [`SCR1_IMEM_DWIDTH-1:0]           imem2core_rdata_i,          // IMEM read data
-    input   type_scr1_mem_resp_e                    imem2core_resp_i,           // IMEM response
+    input   logic [1:0]                             imem2core_resp_i,           // IMEM response - cp.7
 
     // Data Memory Interface
     input   logic                                   dmem2core_req_ack_i,        // DMEM request acknowledge
@@ -76,7 +76,7 @@ module scr1_core_top (
     output  logic [`SCR1_DMEM_AWIDTH-1:0]           core2dmem_addr_o,           // DMEM address
     output  logic [`SCR1_DMEM_DWIDTH-1:0]           core2dmem_wdata_o,          // DMEM write data
     input   logic [`SCR1_DMEM_DWIDTH-1:0]           dmem2core_rdata_i,          // DMEM read data
-    input   type_scr1_mem_resp_e                    dmem2core_resp_i            // DMEM response
+    input   logic [1:0]                             dmem2core_resp_i            // DMEM response - cp.7
 );
 
 //-------------------------------------------------------------------------------

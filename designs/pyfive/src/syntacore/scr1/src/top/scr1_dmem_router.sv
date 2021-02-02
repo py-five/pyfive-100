@@ -25,7 +25,7 @@ module scr1_dmem_router
     input   logic [`SCR1_DMEM_AWIDTH-1:0]   dmem_addr,
     input   logic [`SCR1_DMEM_DWIDTH-1:0]   dmem_wdata,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]   dmem_rdata,
-    output  type_scr1_mem_resp_e            dmem_resp,
+    output  logic [1:0]                     dmem_resp, // cp.7
 
     // PORT0 interface
     input   logic                           port0_req_ack,
@@ -35,7 +35,7 @@ module scr1_dmem_router
     output  logic [`SCR1_DMEM_AWIDTH-1:0]   port0_addr,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]   port0_wdata,
     input   logic [`SCR1_DMEM_DWIDTH-1:0]   port0_rdata,
-    input   type_scr1_mem_resp_e            port0_resp,
+    input   logic [1:0]                     port0_resp, // cp.7
 
     // PORT1 interface
     input   logic                           port1_req_ack,
@@ -45,7 +45,7 @@ module scr1_dmem_router
     output  logic [`SCR1_DMEM_AWIDTH-1:0]   port1_addr,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]   port1_wdata,
     input   logic [`SCR1_DMEM_DWIDTH-1:0]   port1_rdata,
-    input   type_scr1_mem_resp_e            port1_resp,
+    input   logic [1:0]                     port1_resp, // cp.7
 
     // PORT2 interface
     input   logic                           port2_req_ack,
@@ -55,7 +55,7 @@ module scr1_dmem_router
     output  logic [`SCR1_DMEM_AWIDTH-1:0]   port2_addr,
     output  logic [`SCR1_DMEM_DWIDTH-1:0]   port2_wdata,
     input   logic [`SCR1_DMEM_DWIDTH-1:0]   port2_rdata,
-    input   type_scr1_mem_resp_e            port2_resp
+    input   logic [1:0]                     port2_resp // cp.7
 );
 
 //-------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ type_scr1_fsm_e                 fsm;
 type_scr1_sel_e                 port_sel;
 type_scr1_sel_e                 port_sel_r;
 logic [`SCR1_DMEM_DWIDTH-1:0]   sel_rdata;
-type_scr1_mem_resp_e            sel_resp;
+logic [1:0]                     sel_resp; // cp.7
 logic                           sel_req_ack;
 
 //-------------------------------------------------------------------------------

@@ -24,7 +24,7 @@ module scr1_mem_axi
     output  logic                           core_req_ack,
     input   logic                           core_req,
     input   logic                           core_cmd, // cp.7
-    input   type_scr1_mem_width_e           core_width,
+    input   logic [1:0]                     core_width, // cp.7
     input   logic [SCR1_ADDR_WIDTH-1:0]     core_addr,
     input   logic [31:0]                    core_wdata,
     output  logic [31:0]                    core_rdata,
@@ -80,7 +80,7 @@ module scr1_mem_axi
 
 // Local functions
 function automatic logic [2:0] width2axsize (
-    input   type_scr1_mem_width_e    width );
+    input   logic [1:0]    width ); // cp.7
     logic [2:0] axsize;
 begin
     case (width)
@@ -95,7 +95,7 @@ end
 endfunction: width2axsize
 
 typedef struct packed {
-    type_scr1_mem_width_e                               axi_width;
+    logic [1:0]                                         axi_width; // cp.7
     logic                    [SCR1_ADDR_WIDTH-1:0]      axi_addr;
     logic                                   [31:0]      axi_wdata;
 } type_scr1_request_s;

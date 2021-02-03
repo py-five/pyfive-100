@@ -15,7 +15,7 @@ module scr1_timer (
     // Memory interface
     input   logic                                   dmem_req,
     input   logic                                   dmem_cmd, // cp.7
-    input   type_scr1_mem_width_e                   dmem_width,
+    input   logic [1:0]                             dmem_width, // cp.7
     input   logic [`SCR1_DMEM_AWIDTH-1:0]           dmem_addr,
     input   logic [`SCR1_DMEM_DWIDTH-1:0]           dmem_wdata,
     output  logic                                   dmem_req_ack,

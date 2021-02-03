@@ -184,10 +184,10 @@ parameter bit [6:0] SCR1_CSR_ADDR_MHPMEVENT_MASK    = 7'b0011001;
 //-------------------------------------------------------------------------------
 // Types declaration
 //-------------------------------------------------------------------------------
-typedef enum logic {
-    SCR1_CSR_RESP_OK,
-    SCR1_CSR_RESP_ER,
-    SCR1_CSR_RESP_ERROR = 'x
-} type_scr1_csr_resp_e;
+//typedef enum logic {
+localparam  bit  SCR1_CSR_RESP_OK = 1'b0;
+localparam  bit  SCR1_CSR_RESP_ER = 1'b1;
+localparam  bit  SCR1_CSR_RESP_ERROR = 'x;
+//} type_scr1_csr_resp_e;
 
 `endif // SCR1_CSR_SVH

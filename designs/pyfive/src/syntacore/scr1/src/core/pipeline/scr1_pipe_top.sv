@@ -40,7 +40,7 @@ module scr1_pipe_top (
     // Data Memory Interface
     output  logic                                       pipe2dmem_req_o,            // DMEM request
     output  logic                                       pipe2dmem_cmd_o,            // DMEM command
-    output  type_scr1_mem_width_e                       pipe2dmem_width_o,          // DMEM data width
+    output  logic [1:0]                                 pipe2dmem_width_o,          // DMEM data width - cp.7
     output  logic [`SCR1_DMEM_AWIDTH-1:0]               pipe2dmem_addr_o,           // DMEM address
     output  logic [`SCR1_DMEM_DWIDTH-1:0]               pipe2dmem_wdata_o,          // DMEM write data
     input   logic                                       dmem2pipe_req_ack_i,        // DMEM request acknowledge
@@ -193,7 +193,7 @@ type_scr1_csr_cmd_sel_e                     csr2tdu_cmd;           // TDU comman
 logic [SCR1_CSR_ADDR_TDU_OFFS_W-1:0]        csr2tdu_addr;          // TDU address
 logic [`SCR1_XLEN-1:0]                      csr2tdu_wdata;         // TDU write data
 logic [`SCR1_XLEN-1:0]                      tdu2csr_rdata;         // TDU read data
-type_scr1_csr_resp_e                        tdu2csr_resp;          // TDU response
+logic                                       tdu2csr_resp;          // TDU response - cp.7
  `ifdef SCR1_DBG_EN
                                                                     // Qualified TDU input signals from pipe_rst_n
                                                                     // reset domain:
@@ -226,7 +226,7 @@ type_scr1_csr_cmd_sel_e                     csr2hdu_cmd;            // HDU comma
 logic [SCR1_HDU_DEBUGCSR_ADDR_WIDTH-1:0]    csr2hdu_addr;           // HDU address
 logic [`SCR1_XLEN-1:0]                      csr2hdu_wdata;          // HDU write data
 logic [`SCR1_XLEN-1:0]                      hdu2csr_rdata;          // HDU read data
-type_scr1_csr_resp_e                        hdu2csr_resp;           // HDU response
+logic                                       hdu2csr_resp;           // HDU response - cp.7
                                                                     // Qualified HDU input signals from pipe_rst_n
                                                                     // reset domain:
 logic                                       csr2hdu_req_qlfy;       //     Request to HDU

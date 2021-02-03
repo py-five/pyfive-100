@@ -15,7 +15,7 @@ module scr1_dmem_ahb (
     output  logic                           dmem_req_ack,
     input   logic                           dmem_req,
     input   logic                           dmem_cmd, // cp.7
-    input   type_scr1_mem_width_e           dmem_width,
+    input   logic [1:0]                     dmem_width, // cp.7
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_addr,
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_wdata,
     output  logic   [SCR1_AHB_WIDTH-1:0]    dmem_rdata,
@@ -78,7 +78,7 @@ typedef struct packed {
 // Local functions
 //-------------------------------------------------------------------------------
 function automatic logic   [2:0] scr1_conv_mem2ahb_width (
-    input   type_scr1_mem_width_e    dmem_width
+    input   logic [1:0]    dmem_width // cp.7
 );
     logic   [2:0]   tmp;
 begin
@@ -102,7 +102,7 @@ endfunction : scr1_conv_mem2ahb_width
 
 function automatic logic[SCR1_AHB_WIDTH-1:0] scr1_conv_mem2ahb_wdata (
     input   logic   [1:0]                   dmem_addr,
-    input   type_scr1_mem_width_e           dmem_width,
+    input   logic   [1:0]                   dmem_width, // cp.7
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_wdata
 );
     logic   [SCR1_AHB_WIDTH-1:0]  tmp;

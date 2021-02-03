@@ -47,7 +47,7 @@ module scr1_pipe_tdu (
     input  logic [SCR1_CSR_ADDR_TDU_OFFS_W-1:0]             csr2tdu_addr_i,             // CSR-TDU i/f address
     input  logic [SCR1_TDU_DATA_W-1:0]                      csr2tdu_wdata_i,            // CSR-TDU i/f write data
     output logic [SCR1_TDU_DATA_W-1:0]                      tdu2csr_rdata_o,            // CSR-TDU i/f read data
-    output type_scr1_csr_resp_e                             tdu2csr_resp_o,             // CSR-TDU i/f response
+    output logic                                            tdu2csr_resp_o,             // CSR-TDU i/f response - cp.7
 
     // TDU <-> EXU interface
     input  type_scr1_brkm_instr_mon_s                       exu2tdu_imon_i,             // Instruction stream monitoring

@@ -1,0 +1,21 @@
+
+List of major changes and improvements between releases
+=======================================================
+pyfive-100:  0.1 - 05th Feb 2021 
+----------------------
+
+ * Various
+           - scr1 code logic are modified to make compatibile with yosys synthesis tool
+           - Basic yosys synthesis script integrated
+           - change done for yosys synthesis 
+                  - all the changes are listed with compatibilty code - cp.*
+                  - Details of cp.* detals are give in file designs/pyfive/src/syntacore/scr1/Change.md
+                  - All the rtl files (excluding include files) are concatinated to single file as yosys 
+                    has issue in handling global variable defination passing from one rtl to other file
+           - All the test case integrated in scr1 core are passing
+
+pyfive-100:  0.0 initial version - 26th Jan 2021 
+----------------------
+
+ * Various
+           - scr core picked from https://github.com/syntacore/scr1

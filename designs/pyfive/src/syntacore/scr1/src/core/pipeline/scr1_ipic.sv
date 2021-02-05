@@ -100,28 +100,25 @@ endfunction
 function  [SCR1_IRQ_VECT_WIDTH+1:0] scr1_search_one_16(
     input   logic [15:0]    din
 );
-begin
-    logic [7:0]         stage1_vd;
-    logic [3:0]         stage2_vd;
-    logic [1:0]         stage3_vd;
+    logic [7:0]         stage1_vd; // cp.17
+    logic [3:0]         stage2_vd; // cp.17
+    logic [1:0]         stage3_vd; // cp.17
 
-    logic               stage1_idx [7:0];
-    logic [1:0]         stage2_idx [3:0];
-    logic [2:0]         stage3_idx [1:0];
-    logic [2:0]         i;
-    type_scr1_search_one_16_s result;
-    /**
+    logic               stage1_idx [7:0]; // cp.17
+    logic [1:0]         stage2_idx [3:0]; // cp.17
+    logic [2:0]         stage3_idx [1:0]; // cp.17
+    type_scr1_search_one_16_s result; // cp.17
+    type_scr1_search_one_2_s tmp; // cp.17
+    integer i; // cp.17
+begin
     // Stage 1
     for (i=0; i<8; i=i+1) begin
-        type_scr1_search_one_2_s tmp;
         tmp = scr1_search_one_2(din[(i+1)*2-1-:2]);
         stage1_vd[i]  = tmp.vd;
         stage1_idx[i] = tmp.idx;
     end
-    **/
     // Stage 2
     for (i=0; i<4; i=i+1) begin
-        type_scr1_search_one_2_s tmp;
         tmp = scr1_search_one_2(stage1_vd[(i+1)*2-1-:2]);
         stage2_vd[i]  = tmp.vd;
         stage2_idx[i] = (~tmp.idx) ? {tmp.idx, stage1_idx[2*i]} : {tmp.idx, stage1_idx[2*i+1]};
@@ -129,7 +126,6 @@ begin
 
     // Stage 3
     for (i=0; i<2; i=i+1) begin
-        type_scr1_search_one_2_s tmp;
         tmp = scr1_search_one_2(stage2_vd[(i+1)*2-1-:2]);
         stage3_vd[i]  = tmp.vd;
         stage3_idx[i] = (~tmp.idx) ? {tmp.idx, stage2_idx[2*i]} : {tmp.idx, stage2_idx[2*i+1]};

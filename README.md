@@ -1,3 +1,21 @@
+```
+  pyfive-100 SOC
+
+Copyright (C) 2020 - 2021  pyfive.org
+
+Permission to use, copy, modify, and/or distribute this soc for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOC INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOC.
+```
+
 # pyfive-100 SOC 
 
 We are in initial phase a building open-source SOC using industry-grade and silicon-proven RISC-V core from syntacore; this soc will be optimized for Python operating system. we will be  only using the open source tool set for simulation,synthesis and backend tools. The SOC flow will follow the openlane methodology. this soc will be designed and maintained by pyfive.org.

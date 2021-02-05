@@ -15,7 +15,7 @@ module scr1_timer (
     // Memory interface
     input   logic                                   dmem_req,
     input   logic                                   dmem_cmd, // cp.7
-    input   logic [1:0]                             dmem_width, // cp.7
+    input   type_scr1_mem_width_e                   dmem_width,
     input   logic [`SCR1_DMEM_AWIDTH-1:0]           dmem_addr,
     input   logic [`SCR1_DMEM_DWIDTH-1:0]           dmem_wdata,
     output  logic                                   dmem_req_ack,
@@ -30,7 +30,7 @@ module scr1_timer (
 //-------------------------------------------------------------------------------
 // Local parameters declaration
 //-------------------------------------------------------------------------------
-localparam int unsigned SCR1_TIMER_ADDR_WIDTH                               = 5;
+localparam logic [31:0] SCR1_TIMER_ADDR_WIDTH                               = 5;
 localparam logic [SCR1_TIMER_ADDR_WIDTH-1:0] SCR1_TIMER_CONTROL             = 5'h0;
 localparam logic [SCR1_TIMER_ADDR_WIDTH-1:0] SCR1_TIMER_DIVIDER             = 5'h4;
 localparam logic [SCR1_TIMER_ADDR_WIDTH-1:0] SCR1_TIMER_MTIMELO             = 5'h8;
@@ -38,9 +38,9 @@ localparam logic [SCR1_TIMER_ADDR_WIDTH-1:0] SCR1_TIMER_MTIMEHI             = 5'
 localparam logic [SCR1_TIMER_ADDR_WIDTH-1:0] SCR1_TIMER_MTIMECMPLO          = 5'h10;
 localparam logic [SCR1_TIMER_ADDR_WIDTH-1:0] SCR1_TIMER_MTIMECMPHI          = 5'h14;
 
-localparam int unsigned SCR1_TIMER_CONTROL_EN_OFFSET                        = 0;
-localparam int unsigned SCR1_TIMER_CONTROL_CLKSRC_OFFSET                    = 1;
-localparam int unsigned SCR1_TIMER_DIVIDER_WIDTH                            = 10;
+localparam logic [31:0] SCR1_TIMER_CONTROL_EN_OFFSET                        = 0;
+localparam logic [31:0] SCR1_TIMER_CONTROL_CLKSRC_OFFSET                    = 1;
+localparam logic [31:0] SCR1_TIMER_DIVIDER_WIDTH                            = 10;
 
 //-------------------------------------------------------------------------------
 // Local signals declaration

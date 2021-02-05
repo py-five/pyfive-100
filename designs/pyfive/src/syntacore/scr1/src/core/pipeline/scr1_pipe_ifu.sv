@@ -420,8 +420,10 @@ assign q_wr_en = imem_resp_vd & ~q_flush_req;
 
 always_ff @(posedge clk, negedge rst_n) begin
     if (~rst_n) begin
+     `ifdef SCR1_MPRF_RST_EN // Two dimensional array init not allowed in YOSYS - cp.13
         q_data  <= '{SCR1_IFU_Q_SIZE_HALF{'0}};
         q_err   <= '{SCR1_IFU_Q_SIZE_HALF{1'b0}};
+     `endif
     end else if (q_wr_en) begin
         case (q_wr_size)
             SCR1_IFU_QUEUE_WR_HI    : begin

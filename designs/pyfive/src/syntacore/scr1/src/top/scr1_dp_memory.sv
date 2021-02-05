@@ -69,7 +69,7 @@ end
 
 // CASE: OTHERS - SCR1_TRGT_FPGA_XILINX, SIMULATION, ASIC etc
 
-localparam int unsigned RAM_SIZE_WORDS = SCR1_SIZE/SCR1_NBYTES;
+localparam [31:0] RAM_SIZE_WORDS = SCR1_SIZE/SCR1_NBYTES;
 
 //-------------------------------------------------------------------------------
 // Local signal declaration
@@ -91,9 +91,10 @@ end
 //-------------------------------------------------------------------------------
 // Port B memory behavioral description
 //-------------------------------------------------------------------------------
+integer i;
 always_ff @(posedge clk) begin
     if (wenb) begin
-        for (int i=0; i<SCR1_NBYTES; i++) begin
+        for (i=0; i<SCR1_NBYTES; i=i+1) begin
             if (webb[i]) begin
                 ram_block[addrb][i*8 +: 8] <= datab[i*8 +: 8];
             end

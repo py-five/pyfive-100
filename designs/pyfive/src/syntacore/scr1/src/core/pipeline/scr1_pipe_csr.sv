@@ -100,7 +100,7 @@ module scr1_pipe_csr (
     output  logic [SCR1_HDU_DEBUGCSR_ADDR_WIDTH-1:0]    csr2hdu_addr_o,             // HDU address
     output  logic [`SCR1_XLEN-1:0]                      csr2hdu_wdata_o,            // HDU write data
     input   logic [`SCR1_XLEN-1:0]                      hdu2csr_rdata_i,            // HDU read data
-    input   logic                                       hdu2csr_resp_i,             // HDU response - cp.7
+    input   type_scr1_csr_resp_e                        hdu2csr_resp_i,             // HDU response
     input   logic                                       hdu2csr_no_commit_i,        // Forbid instruction commitment
 `endif // SCR1_DBG_EN
 
@@ -111,7 +111,7 @@ module scr1_pipe_csr (
     output  logic [SCR1_CSR_ADDR_TDU_OFFS_W-1:0]        csr2tdu_addr_o,             // TDU address
     output  logic [`SCR1_XLEN-1:0]                      csr2tdu_wdata_o,            // TDU write data
     input   logic [`SCR1_XLEN-1:0]                      tdu2csr_rdata_i,            // TDU read data
-    input   logic                                       tdu2csr_resp_i,             // TDU response - cp.7
+    input   type_scr1_csr_resp_e                        tdu2csr_resp_i,             // TDU response
 `endif // SCR1_TDU_EN
 
     // CSR <-> EXU PC interface
@@ -348,7 +348,7 @@ always_comb begin
         // Machine Trap Handling (read-write)
         SCR1_CSR_ADDR_MSCRATCH  : csr_r_data    = csr_mscratch_ff;
         SCR1_CSR_ADDR_MEPC      : csr_r_data    = csr_mepc;
-        SCR1_CSR_ADDR_MCAUSE    : csr_r_data    = {csr_mcause_i_ff, type_scr1_csr_mcause_ec_v'(csr_mcause_ec_ff)};
+        SCR1_CSR_ADDR_MCAUSE    : csr_r_data    = {csr_mcause_i_ff, (`SCR1_XLEN-1)'(csr_mcause_ec_ff)};
         SCR1_CSR_ADDR_MTVAL     : csr_r_data    = csr_mtval_ff;
         SCR1_CSR_ADDR_MIP       : csr_r_data    = csr_mip;
 

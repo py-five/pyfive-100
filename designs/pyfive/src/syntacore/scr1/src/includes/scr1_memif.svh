@@ -20,12 +20,12 @@ localparam bit    SCR1_MEM_CMD_ERROR  = 'x;
 //-------------------------------------------------------------------------------
 // Memory data width enum
 //-------------------------------------------------------------------------------
-//typedef enum logic[1:0] { - cp.7
-localparam bit [1:0]   SCR1_MEM_WIDTH_BYTE     = 2'b00;
-localparam bit [1:0]   SCR1_MEM_WIDTH_HWORD    = 2'b01;
-localparam bit [1:0]   SCR1_MEM_WIDTH_WORD     = 2'b10;
-localparam bit [1:0]   SCR1_MEM_WIDTH_ERROR    = 'x;
-//} type_scr1_mem_width_e;
+typedef enum logic[1:0] {
+    SCR1_MEM_WIDTH_BYTE     = 2'b00,
+    SCR1_MEM_WIDTH_HWORD    = 2'b01,
+    SCR1_MEM_WIDTH_WORD     = 2'b10,
+    SCR1_MEM_WIDTH_ERROR    = 'x
+} type_scr1_mem_width_e;
 
 //-------------------------------------------------------------------------------
 // Memory response enum

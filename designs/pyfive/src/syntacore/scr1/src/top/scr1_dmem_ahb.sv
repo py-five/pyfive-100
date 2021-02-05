@@ -15,7 +15,7 @@ module scr1_dmem_ahb (
     output  logic                           dmem_req_ack,
     input   logic                           dmem_req,
     input   logic                           dmem_cmd, // cp.7
-    input   logic [1:0]                     dmem_width, // cp.7
+    input   type_scr1_mem_width_e           dmem_width,
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_addr,
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_wdata,
     output  logic   [SCR1_AHB_WIDTH-1:0]    dmem_rdata,
@@ -77,7 +77,7 @@ typedef struct packed {
 //-------------------------------------------------------------------------------
 // Local functions
 //-------------------------------------------------------------------------------
-function automatic logic   [2:0] scr1_conv_mem2ahb_width (
+function  [2:0] scr1_conv_mem2ahb_width (
     input   logic [1:0]    dmem_width // cp.7
 );
     logic   [2:0]   tmp;
@@ -96,11 +96,11 @@ begin
             tmp = SCR1_HSIZE_ERR;
         end
     endcase
-    return tmp;
+    scr1_conv_mem2ahb_width =  tmp; // cp.11
 end
-endfunction : scr1_conv_mem2ahb_width
+endfunction
 
-function automatic logic[SCR1_AHB_WIDTH-1:0] scr1_conv_mem2ahb_wdata (
+function  [SCR1_AHB_WIDTH-1:0] scr1_conv_mem2ahb_wdata (
     input   logic   [1:0]                   dmem_addr,
     input   logic   [1:0]                   dmem_width, // cp.7
     input   logic   [SCR1_AHB_WIDTH-1:0]    dmem_wdata
@@ -145,11 +145,11 @@ begin
         default : begin
         end
     endcase
-    return tmp;
+    scr1_conv_mem2ahb_wdata = tmp;
 end
-endfunction : scr1_conv_mem2ahb_wdata
+endfunction
 
-function automatic logic[SCR1_AHB_WIDTH-1:0] scr1_conv_ahb2mem_rdata (
+function [SCR1_AHB_WIDTH-1:0] scr1_conv_ahb2mem_rdata (
     input   logic [2:0]                 hwidth,
     input   logic [1:0]                 haddr,
     input   logic [SCR1_AHB_WIDTH-1:0]  hrdata
@@ -182,9 +182,9 @@ begin
         default : begin
         end
     endcase
-    return tmp;
+    scr1_conv_ahb2mem_rdata = tmp;
 end
-endfunction : scr1_conv_ahb2mem_rdata
+endfunction
 
 //-------------------------------------------------------------------------------
 // Local signal declaration

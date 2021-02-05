@@ -104,7 +104,7 @@ module scr1_pipe_exu (
     // EXU <-> DMEM interface
     output  logic                               exu2dmem_req_o,             // Data memory request
     output  logic                               exu2dmem_cmd_o,             // Data memory command - cp.7
-    output  logic [1:0]                         exu2dmem_width_o,           // Data memory width - cp.7
+    output  type_scr1_mem_width_e               exu2dmem_width_o,           // Data memory width
     output  logic [`SCR1_DMEM_AWIDTH-1:0]       exu2dmem_addr_o,            // Data memory address
     output  logic [`SCR1_DMEM_DWIDTH-1:0]       exu2dmem_wdata_o,           // Data memory write data
     input   logic                               dmem2exu_req_ack_i,         // Data memory request acknowledge
@@ -832,10 +832,10 @@ assign mprf_rs2_req = exu_queue_vd & idu2exu_use_rs2_i;
 `else // SCR1_NO_EXE_STAGE
  `ifdef  SCR1_MPRF_RAM
 assign mprf_rs1_req = exu_queue_en
-                    ? exu_queue_vd_next & idu2exu_use_rs1_i;
+                    ? (exu_queue_vd_next & idu2exu_use_rs1_i)
                     : exu_queue_vd_next & idu2exu_use_rs1_ff;
 assign mprf_rs2_req = exu_queue_en
-                    ? exu_queue_vd_next & idu2exu_use_rs2_i;
+                    ? (exu_queue_vd_next & idu2exu_use_rs2_i)
                     : exu_queue_vd_next & idu2exu_use_rs2_ff;
  `else // SCR1_MPRF_RAM
 assign mprf_rs1_req = exu_queue_vd & idu2exu_use_rs1_ff;

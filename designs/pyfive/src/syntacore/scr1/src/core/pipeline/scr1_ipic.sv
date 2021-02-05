@@ -86,18 +86,18 @@ typedef struct packed {
 // Local functions declaration
 //-------------------------------------------------------------------------------
 
-function automatic type_scr1_search_one_2_s scr1_search_one_2(
+function [1:0]  scr1_search_one_2(
     input   logic   [1:0] din
 );
     type_scr1_search_one_2_s tmp;
 begin
     tmp.vd  = |din;
     tmp.idx = ~din[0];
-    return  tmp;
+    scr1_search_one_2 =  tmp;
 end
-endfunction : scr1_search_one_2
+endfunction
 
-function automatic type_scr1_search_one_16_s scr1_search_one_16(
+function  [SCR1_IRQ_VECT_WIDTH+1:0] scr1_search_one_16(
     input   logic [15:0]    din
 );
 begin
@@ -108,18 +108,19 @@ begin
     logic               stage1_idx [7:0];
     logic [1:0]         stage2_idx [3:0];
     logic [2:0]         stage3_idx [1:0];
+    logic [2:0]         i;
     type_scr1_search_one_16_s result;
-
+    /**
     // Stage 1
-    for (int unsigned i=0; i<8; ++i) begin
+    for (i=0; i<8; i=i+1) begin
         type_scr1_search_one_2_s tmp;
         tmp = scr1_search_one_2(din[(i+1)*2-1-:2]);
         stage1_vd[i]  = tmp.vd;
         stage1_idx[i] = tmp.idx;
     end
-
+    **/
     // Stage 2
-    for (int unsigned i=0; i<4; ++i) begin
+    for (i=0; i<4; i=i+1) begin
         type_scr1_search_one_2_s tmp;
         tmp = scr1_search_one_2(stage1_vd[(i+1)*2-1-:2]);
         stage2_vd[i]  = tmp.vd;
@@ -127,7 +128,7 @@ begin
     end
 
     // Stage 3
-    for (int unsigned i=0; i<2; ++i) begin
+    for (i=0; i<2; i=i+1) begin
         type_scr1_search_one_2_s tmp;
         tmp = scr1_search_one_2(stage2_vd[(i+1)*2-1-:2]);
         stage3_vd[i]  = tmp.vd;
@@ -138,9 +139,9 @@ begin
     result.vd = |stage3_vd;
     result.idx = (stage3_vd[0]) ? {1'b0, stage3_idx[0]} : {1'b1, stage3_idx[1]};
 
-    return result;
+    scr1_search_one_16 = result;
 end
-endfunction : scr1_search_one_16
+endfunction
 
 //------------------------------------------------------------------------------
 // Local signals declaration
@@ -466,10 +467,10 @@ end
 
 assign ipic_ipr_clr_cond = ~irq_lvl | ipic_imr_next;
 assign ipic_ipr_clr      = ipic_ipr_clr_req & ipic_ipr_clr_cond;
-
+integer i;
 always_comb begin
     ipic_ipr_next = '0;
-    for (int unsigned i=0; i<SCR1_IRQ_VECT_NUM; ++i) begin
+    for (i=0; i<SCR1_IRQ_VECT_NUM; i=i+1) begin
         ipic_ipr_next[i] = ipic_ipr_clr[i] ? 1'b0
                          : ~ipic_imr_ff[i] ? irq_lvl[i]
                                            : ipic_ipr_ff[i] | irq_edge_detected[i];

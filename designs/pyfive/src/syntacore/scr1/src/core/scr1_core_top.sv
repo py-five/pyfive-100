@@ -72,7 +72,7 @@ module scr1_core_top (
     input   logic                                   dmem2core_req_ack_i,        // DMEM request acknowledge
     output  logic                                   core2dmem_req_o,            // DMEM request
     output  logic                                   core2dmem_cmd_o,            // DMEM command - cp.7
-    output  logic [1:0]                             core2dmem_width_o,          // DMEM data width - cp.7
+    output  type_scr1_mem_width_e                   core2dmem_width_o,          // DMEM data width
     output  logic [`SCR1_DMEM_AWIDTH-1:0]           core2dmem_addr_o,           // DMEM address
     output  logic [`SCR1_DMEM_DWIDTH-1:0]           core2dmem_wdata_o,          // DMEM write data
     input   logic [`SCR1_DMEM_DWIDTH-1:0]           dmem2core_rdata_i,          // DMEM read data

@@ -50,7 +50,7 @@ module scr1_pipe_hdu #(parameter HART_PBUF_INSTR_REGOUT_EN = 1'b1) (
     input  type_scr1_csr_cmd_sel_e                      csr2hdu_cmd_i,              // CSR i/f command
     input  logic [SCR1_HDU_DEBUGCSR_ADDR_WIDTH-1:0]     csr2hdu_addr_i,             // CSR i/f address
     input  logic [`SCR1_XLEN-1:0]                       csr2hdu_wdata_i,            // CSR i/f write data
-    output logic                                        hdu2csr_resp_o,             // CSR i/f response - cp.7
+    output type_scr1_csr_resp_e                         hdu2csr_resp_o,             // CSR i/f response
     output logic [`SCR1_XLEN-1:0]                       hdu2csr_rdata_o,            // CSR i/f read data
 
     // HDU <-> DM i/f
@@ -123,8 +123,8 @@ module scr1_pipe_hdu #(parameter HART_PBUF_INSTR_REGOUT_EN = 1'b1) (
 // Local Parameters
 //------------------------------------------------------------------------------
 
-localparam int unsigned SCR1_HDU_TIMEOUT       = 64;       // must be power of 2
-localparam int unsigned SCR1_HDU_TIMEOUT_WIDTH = $clog2(SCR1_HDU_TIMEOUT);
+localparam [31:0] SCR1_HDU_TIMEOUT       = 64;       // must be power of 2
+localparam [31:0] SCR1_HDU_TIMEOUT_WIDTH = $clog2(SCR1_HDU_TIMEOUT);
 
 //------------------------------------------------------------------------------
 // Local Signals
@@ -249,7 +249,7 @@ logic                                               csr_addr_dscratch0;
 logic                                               csr_dscratch0_sel;
 logic                                               csr_dscratch0_wr;
 logic [`SCR1_XLEN-1:0]                              csr_dscratch0_out;
-logic                                               csr_dscratch0_resp; // cp.7
+type_scr1_csr_resp_e                                csr_dscratch0_resp;
 
 //------------------------------------------------------------------------------
 // Debug state FSM logic

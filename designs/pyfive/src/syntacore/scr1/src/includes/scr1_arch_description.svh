@@ -30,7 +30,7 @@
 
 // Uncomment one of these defines to set the recommended configuration:
 
-//`define SCR1_CFG_RV32IMC_MAX
+`define SCR1_CFG_RV32IMC_MAX
 //`define SCR1_CFG_RV32IC_BASE
 //`define SCR1_CFG_RV32EC_MIN
 

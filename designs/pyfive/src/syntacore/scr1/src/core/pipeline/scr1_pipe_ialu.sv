@@ -485,6 +485,8 @@ assign div_dvdnd_lo_next = (~mdu_cmd_div | mdu_fsm_corr) ? '0
 //-------------------------------------------------------------------------------
 // MDU adder
 //-------------------------------------------------------------------------------
+logic           sgn;
+logic           inv;
 
 always_comb begin
     mdu_sum_sub    = 1'b0;
@@ -492,9 +494,6 @@ always_comb begin
     mdu_sum_op2    = '0;
     case (mdu_cmd)
         SCR1_IALU_MDU_DIV : begin
-            logic           sgn;
-            logic           inv;
-
             sgn         = mdu_fsm_corr ? div_op1_is_neg ^ mdu_res_c_ff
                         : mdu_fsm_idle ? 1'b0
                                        : ~mdu_res_lo_ff[0];

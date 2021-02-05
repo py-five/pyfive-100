@@ -103,7 +103,7 @@ logic [1:0]                                         core_imem_resp; // cp.7
 logic                                               core_dmem_req_ack;
 logic                                               core_dmem_req;
 logic                                               core_dmem_cmd; // cp.7
-logic [1:0]                                         core_dmem_width; // cp.7
+type_scr1_mem_width_e                               core_dmem_width;
 logic [`SCR1_DMEM_AWIDTH-1:0]                       core_dmem_addr;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       core_dmem_wdata;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       core_dmem_rdata;
@@ -121,7 +121,7 @@ logic [1:0]                                         ahb_imem_resp; // cp.7
 logic                                               ahb_dmem_req_ack;
 logic                                               ahb_dmem_req;
 logic                                               ahb_dmem_cmd; // cp.7
-logic [1:0]                                         ahb_dmem_width; // cp.7
+type_scr1_mem_width_e                               ahb_dmem_width;
 logic [`SCR1_DMEM_AWIDTH-1:0]                       ahb_dmem_addr;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       ahb_dmem_wdata;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       ahb_dmem_rdata;
@@ -140,7 +140,7 @@ logic [1:0]                                         tcm_imem_resp; // cp.7
 logic                                               tcm_dmem_req_ack;
 logic                                               tcm_dmem_req;
 logic                                               tcm_dmem_cmd; // cp.7
-logic [1:0]                                         tcm_dmem_width; // cp.7
+type_scr1_mem_width_e                               tcm_dmem_width;
 logic [`SCR1_DMEM_AWIDTH-1:0]                       tcm_dmem_addr;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       tcm_dmem_wdata;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       tcm_dmem_rdata;
@@ -151,7 +151,7 @@ logic [1:0]                                         tcm_dmem_resp; // cp.7
 logic                                               timer_dmem_req_ack;
 logic                                               timer_dmem_req;
 logic                                               timer_dmem_cmd; // cp.7
-logic [1:0]                                         timer_dmem_width; // cp.7
+type_scr1_mem_width_e                               timer_dmem_width;
 logic [`SCR1_DMEM_AWIDTH-1:0]                       timer_dmem_addr;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       timer_dmem_wdata;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       timer_dmem_rdata;

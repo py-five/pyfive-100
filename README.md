@@ -43,34 +43,34 @@ We are in initial phase a building open-source SOC using industry-grade and sili
 
 ## Repository contents
 
-|Folder | Description
-|------ | -----------
+```
 |designs
-|├─  pyfive
-|     ├─  src
-|         ├─  syntacore
-|               ├─  scr1
-|                    ├─  **dependencies**                 | **Dependent submodules**
-|                    |      ├─ riscv-tests                | Common source files for RISC-V ISA tests
-|                    |      ├─ riscv-compliance           | Common source files for RISC-V Compliance tests
-|                    |      └─ coremark                   | Common source files for EEMBC's CoreMark® benchmark
-|                    ├─ **docs**                          | **SCR1 documentation**
-|                    |      ├─ scr1_eas.pdf               | SCR1 External Architecture Specification
-|                    |      └─ scr1_um.pdf                | SCR1 User Manual
-|                    ├─  **sim**                           | **Tests and scripts for simulation**
-|                    |     ├─ tests/common                   | Common source files for tests
-|                    |     ├─ tests/riscv_isa                | RISC-V ISA tests platform specific source files
-|                    |     ├─ tests/riscv_compliance         | RISC-V Compliance platform specific source files
-|                    |     ├─ tests/benchmarks/dhrystone21   | Dhrystone 2.1 benchmark source files
-|                    |     ├─ tests/benchmarks/coremark      | EEMBC's CoreMark® benchmark platform specific source files
-|                    |     ├─ tests/isr_sample               | Sample program "Interrupt Service Routine"
-|                    |     ├─ tests/hello                    | Sample program "Hello"
-|                    |     └─ verilator_wrap                 | Wrappers for Verilator simulation
-|                    ├─  **src**                           | **SCR1 RTL source and testbench files**
-|                        ├─ includes                       | Header files
-|                        ├─ core                           | Core top source files
-|                        ├─ top                            | Cluster source files
-|                        └─ tb                             | Testbench files
+|   ├─  pyfive
+|   |     |─  src
+|   |     |   |─  syntacore
+|   |     |   |     |─  scr1
+|   |     |   |     |    ├─  **dependencies**                  | **Dependent submodules**
+|   |     |   |     |    |      ├─ riscv-tests                 | Common source files for RISC-V ISA tests
+|   |     |   |     |    |      ├─ riscv-compliance            | Common source files for RISC-V Compliance tests
+|   |     |   |     |    |      └─ coremark                    | Common source files for EEMBC's CoreMark® benchmark
+|   |     |   |     |    ├─ **docs**                           | **SCR1 documentation**
+|   |     |   |     |    |      ├─ scr1_eas.pdf                | SCR1 External Architecture Specification
+|   |     |   |     |    |      └─ scr1_um.pdf                 | SCR1 User Manual
+|   |     |   |     |    ├─  **sim**                           | **Tests and scripts for simulation**
+|   |     |   |     |    |     ├─ tests/common                 | Common source files for tests
+|   |     |   |     |    |     ├─ tests/riscv_isa              | RISC-V ISA tests platform specific source files
+|   |     |   |     |    |     ├─ tests/riscv_compliance       | RISC-V Compliance platform specific source files
+|   |     |   |     |    |     ├─ tests/benchmarks/dhrystone21 | Dhrystone 2.1 benchmark source files
+|   |     |   |     |    |     ├─ tests/benchmarks/coremark    | EEMBC's CoreMark® benchmark platform specific source files
+|   |     |   |     |    |     ├─ tests/isr_sample             | Sample program "Interrupt Service Routine"
+|   |     |   |     |    |     ├─ tests/hello                  | Sample program "Hello"
+|   |     |   |     |    |     └─ verilator_wrap               | Wrappers for Verilator simulation
+|   |     |   |     |    |─  **src**                           | **SCR1 RTL source and testbench files**
+|   |     |   |     |    |   ├─ includes                       | Header files
+|   |     |   |     |    |   ├─ core                           | Core top source files
+|   |     |   |     |    |   ├─ top                            | Cluster source files
+|   |     |   |     |    |   └─ tb                             | Testbench files
+```
 
 ## syntacore SCR1 source file lists
 

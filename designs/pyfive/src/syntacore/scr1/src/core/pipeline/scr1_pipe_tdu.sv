@@ -166,6 +166,7 @@ logic [MTRIG_NUM-1:0]                           csr_tdata2_ff [SCR1_TDU_DATA_W-1
 assign tdu2csr_resp_o = csr2tdu_req_i ? SCR1_CSR_RESP_OK : SCR1_CSR_RESP_ER;
 integer i;
 always_comb begin
+    i = 0; // yosys latch warning fix
     tdu2csr_rdata_o = '0;
     if (csr2tdu_req_i) begin
         case (csr2tdu_addr_i)
@@ -263,6 +264,7 @@ end
 //------------------------------------------------------------------------------
 integer k;
 always_comb begin
+    k = 0; // yosys latch warning fix
     csr_addr_tselect  = 1'b0;
     csr_addr_tdata2   = '0;
     csr_addr_mcontrol = '0;

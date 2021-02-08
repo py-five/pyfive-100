@@ -1,3 +1,18 @@
+#####################################################
+# Clean up old file and freshly create the directory
+####################################################
+\rm -rf pyfive.sv
+\rm -rf ./tmp
+\rm -rf ./reports
+mkdir -p ./tmp/synthesis
+mkdir -p ./reports/synthesis
+
+################################################
+# yosys has issue in propgating the golbal parameter from one file to other file
+# to fix this issue, we have concatinated all the rtl file into single file before starting synthesis
+# only memory are exclded from this list
+################################################
+
 cat ../src/core/pipeline/scr1_pipe_top.sv > pyfive.sv
 cat ../src/core/scr1_core_top.sv >> pyfive.sv
 cat ../src/core/scr1_dm.sv >> pyfive.sv
@@ -20,7 +35,7 @@ cat ../src/core/pipeline/scr1_pipe_tdu.sv >> pyfive.sv
 cat ../src/core/pipeline/scr1_ipic.sv >> pyfive.sv
 cat ../src/top/scr1_dmem_router.sv >> pyfive.sv
 cat ../src/top/scr1_imem_router.sv >> pyfive.sv
-cat ../src/top/scr1_dp_memory.sv >> pyfive.sv
+#cat ../src/top/scr1_dp_memory.sv >> pyfive.sv
 cat ../src/top/scr1_tcm.sv >> pyfive.sv
 cat ../src/top/scr1_timer.sv >> pyfive.sv
 cat ../src/top/scr1_dmem_ahb.sv >> pyfive.sv
@@ -28,4 +43,5 @@ cat ../src/top/scr1_imem_ahb.sv >> pyfive.sv
 cat ../src/top/scr1_top_axi.sv >> pyfive.sv
 cat ../src/top/scr1_mem_axi.sv>> pyfive.sv
 
-yosys -g  -s synth.tcl
+yosys -g -c synth.tcl -l synth.log
+

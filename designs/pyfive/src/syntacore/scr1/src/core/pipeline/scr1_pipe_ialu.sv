@@ -492,6 +492,8 @@ always_comb begin
     mdu_sum_sub    = 1'b0;
     mdu_sum_op1    = '0;
     mdu_sum_op2    = '0;
+    sgn            = '0; // yosys - latch fix
+    inv            = '0; // yosys - latch fix
     case (mdu_cmd)
         SCR1_IALU_MDU_DIV : begin
             sgn         = mdu_fsm_corr ? div_op1_is_neg ^ mdu_res_c_ff

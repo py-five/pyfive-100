@@ -4,8 +4,10 @@
 \rm -rf pyfive.sv
 \rm -rf ./tmp
 \rm -rf ./reports
+\rm -rf ./netlist
 mkdir -p ./tmp/synthesis
-mkdir -p ./reports/synthesis
+mkdir -p ./reports
+mkdir -p ./netlist
 
 ################################################
 # yosys has issue in propgating the golbal parameter from one file to other file

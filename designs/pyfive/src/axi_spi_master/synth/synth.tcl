@@ -20,21 +20,20 @@
 # User config
 set ::env(DESIGN_DIR) ../
 
-set ::env(PROJ_DIR) ../../../../
+set ::env(PROJ_DIR) ../../../
 
 # User config
-set ::env(DESIGN_NAME) scr1_top_axi
+set ::env(DESIGN_NAME) axi_spi_master
 
 # Change if needed
 set ::env(VERILOG_FILES) [glob  \
-            $::env(DESIGN_DIR)/synth/pyfive.sv ]
+            $::env(DESIGN_DIR)/synth/axi_spi_master.sv ]
 
-set ::env(VERILOG_FILES_BLACKBOX) [glob  \
-            $::env(DESIGN_DIR)/src/top/scr1_dp_memory.sv ]
+#set ::env(VERILOG_FILES_BLACKBOX) [glob ]
 
-set ::env(VERILOG_INCLUDE_DIRS) [glob $::env(DESIGN_DIR)/src/includes]
+#set ::env(VERILOG_INCLUDE_DIRS) [glob $::env(DESIGN_DIR)/src/includes]
 
-set ::env(SYNTH_DEFINES) [list SCR1_DBG_EN SCR1_MPRF_RAM ]
+#set ::env(SYNTH_DEFINES) [list SCR1_DBG_EN SCR1_MPRF_RAM ]
 
 
 set ::env(LIB_SYNTH)  $::env(PROJ_DIR)/lib/trimmed.lib

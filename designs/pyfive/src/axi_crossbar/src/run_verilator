@@ -1,0 +1,1 @@
+verilator -cc -sv +1800-2017ext+sv -Wno-fatal --top-module pyfive_axi_crossbar  -f filelist.f

@@ -142,7 +142,7 @@ endfunction
 parameter M_BASE_ADDR_INT = M_BASE_ADDR ? M_BASE_ADDR : calcBaseAddrs(0);
 
 integer i, j;
-
+// synthesis translate_off
 // check configuration
 initial begin
     if (S_ACCEPT < 1) begin
@@ -192,6 +192,7 @@ initial begin
         end
     end
 end
+// synthesis translate_on
 
 localparam [2:0]
     STATE_IDLE = 3'd0,

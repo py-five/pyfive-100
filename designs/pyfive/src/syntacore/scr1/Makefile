@@ -116,6 +116,7 @@ endif
 # Paths
 export root_dir := $(shell pwd)
 export tst_dir  := $(root_dir)/sim/tests
+export syn_dir  := $(root_dir)/synth
 export inc_dir  := $(tst_dir)/common
 export bld_dir  := $(root_dir)/build/$(current_goal)_$(BUS)_$(CFG)_$(ARCH)_IPIC_$(IPIC)_TCM_$(TCM)_VIRQ_$(VECT_IRQ)_TRACE_$(TRACE)
 
@@ -173,7 +174,7 @@ TARGETS += dhrystone21
 TARGETS += hello
 
 # Targets
-.PHONY: tests run_modelsim run_vcs run_ncsim run_verilator run_verilator_wf
+.PHONY: tests run_modelsim run_vcs run_ncsim run_verilator run_verilator_wf synth
 
 default: clean_test_list run_verilator
 
@@ -285,9 +286,14 @@ run_verilator_wf: $(test_info)
 	printf "Simulation performed on $$(verilator -version) \n" ;\
 	printf "                          Test               | build | simulation \n" ; \
 	printf "$$(cat $(test_results)) \n"
+
+synth: 
+	$(MAKE) -C $(syn_dir)
+
 clean:
 	$(MAKE) -C $(tst_dir)/benchmarks/dhrystone21 clean
 	$(MAKE) -C $(tst_dir)/riscv_isa clean
 	$(MAKE) -C $(tst_dir)/riscv_compliance clean
+	$(MAKE) -C $(syn_dir) clean
 	$(RM) -R $(root_dir)/build/*
 	$(RM) $(test_info)

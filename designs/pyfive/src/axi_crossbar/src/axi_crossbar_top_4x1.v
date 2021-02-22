@@ -408,8 +408,8 @@ module axi_crossbar_top_4x1 #
     output wire                     m00_axi_rready
 );
 
-localparam S_COUNT = 4;
-localparam M_COUNT = 1;
+localparam S_COUNT = 1;
+localparam M_COUNT = 4;
 
 // parameter sizing helpers
 function [ADDR_WIDTH*M_REGIONS-1:0] w_a_r(input [ADDR_WIDTH*M_REGIONS-1:0] val);

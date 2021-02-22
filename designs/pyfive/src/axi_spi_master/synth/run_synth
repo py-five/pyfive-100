@@ -1,0 +1,27 @@
+#####################################################
+# Clean up old file and freshly create the directory
+####################################################
+\rm -rf ./tmp
+\rm -rf ./reports
+\rm -rf ./netlist
+mkdir -p ./tmp/synthesis
+mkdir -p ./reports/
+mkdir -p ./netlist
+
+################################################
+# yosys has issue in propgating the golbal parameter from one file to other file
+# to fix this issue, we have concatinated all the rtl file into single file before starting synthesis
+# only memory are exclded from this list
+################################################
+
+
+cat ../src/axi_spi_master.sv             > axi_spi_master.sv
+cat ../src/spi_master_axi_if.sv          >> axi_spi_master.sv
+cat ../src/spi_master_clkgen.sv          >> axi_spi_master.sv
+cat ../src/spi_master_controller.sv      >> axi_spi_master.sv
+cat ../src/spi_master_fifo.sv            >> axi_spi_master.sv
+cat ../src/spi_master_rx.sv              >> axi_spi_master.sv
+cat ../src/spi_master_tx.sv              >> axi_spi_master.sv
+
+yosys -g -c synth.tcl -l synth.log
+

@@ -58,7 +58,7 @@ module scr1_tracelog (
 //-------------------------------------------------------------------------------
 // Local types declaration
 //-------------------------------------------------------------------------------
-typedef struct {
+typedef struct packed {
     logic [`SCR1_XLEN-1:0]      INT_00_ZERO ;
     logic [`SCR1_XLEN-1:0]      INT_01_RA   ;
     logic [`SCR1_XLEN-1:0]      INT_02_SP   ;

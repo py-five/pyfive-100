@@ -1,9 +1,9 @@
 axi_arbitor.v
 axi_crossbar_addr.v
 axi_crossbar_rd.v
-axi_crossbar_top_4x1.v
 axi_crossbar.v
 axi_crossbar_wr.v
 axi_priority_encoder.v
 axi_register_rd.v
 axi_register_wr.v
+pyfive_axi_crossbar.v

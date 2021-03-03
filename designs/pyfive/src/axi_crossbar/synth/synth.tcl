@@ -31,7 +31,7 @@ set ::env(VERILOG_FILES) [glob  \
 
 #set ::env(VERILOG_FILES_BLACKBOX) [glob ]
 
-#set ::env(VERILOG_INCLUDE_DIRS) [glob $::env(DESIGN_DIR)/src/includes]
+set ::env(VERILOG_INCLUDE_DIRS) [glob $::env(PROJ_DIR)/src/includes]
 
 #set ::env(SYNTH_DEFINES) [list SCR1_DBG_EN SCR1_MPRF_RAM ]
 
@@ -40,6 +40,19 @@ set ::env(LIB_SYNTH)  $::env(PROJ_DIR)/lib/trimmed.lib
 
 
 #set ::env(SDC_FILE) "./designs/aes128/src/aes128.sdc"
+
+
+array set SET_PARMS {
+	      DATA_WIDTH 32\
+              ADDR_WIDTH 32\
+	      STRB_WIDTH 4\
+	      S_ID_WIDTH 1\
+	      M_ID_WIDTH 9\
+	      AWUSER_WIDTH 1\
+	      BUSER_WIDTH 1\
+	      ARUSER_WIDTH 1\
+	      RUSER_WIDTH 1\
+	      }
 
 # Fill this
 set ::env(CLOCK_PERIOD) "10"
@@ -262,6 +275,21 @@ if { $strategy_type == "DELAY" } {
 for { set i 0 } { $i < [llength $::env(VERILOG_FILES)] } { incr i } {
 	read_verilog -sv {*}$vIdirsArgs [lindex $::env(VERILOG_FILES) $i]
 }
+
+#over-ride the parameter
+set vParmsArgs ""
+if {[llength SET_PARMS] > 0 } {
+    foreach {name value} [array get SET_PARMS] {
+    	log "Adding parameter over-ride $name $value"
+    	lappend vParmsArgs "-set $name $value"
+    }
+    lappend vParmsArgs "$::env(DESIGN_NAME)"
+    set vParmsArgs [join $vParmsArgs]
+    
+    log "Adding parameter over-ride $vParmsArgs"
+    chparam {*}$vParmsArgs  
+}
+
 
 if { [info exists ::env(VERILOG_FILES_BLACKBOX)] } {
 	foreach verilog_file $::env(VERILOG_FILES_BLACKBOX) {

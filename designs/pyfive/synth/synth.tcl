@@ -18,34 +18,36 @@
 # User config
 
 # User config
-set ::env(DESIGN_DIR) ../
+set ::env(SRC_DIR) ../src
+set ::env(DESIGN_DIR) ../src/digital_core
 
-set ::env(PROJ_DIR) ../../../
+set ::env(PROJ_DIR) ../
 
 # User config
-set ::env(DESIGN_NAME) axi_spi_master
+set ::env(DESIGN_NAME) digital_core
 
 # Change if needed
 set ::env(VERILOG_FILES) [glob  \
-            $::env(DESIGN_DIR)/synth/axi_spi_master.sv ]
+            $::env(DESIGN_DIR)/digital_core.sv 
+	    ]
 
-#set ::env(VERILOG_FILES_BLACKBOX) [glob ]
 
-set ::env(VERILOG_INCLUDE_DIRS) [glob $::env(PROJ_DIR)/src/includes]
+set ::env(VERILOG_FILES_BLACKBOX) [glob  \
+            $::env(SRC_DIR)/syntacore/scr1/synth/netlist/scr1_top_axi.gv \
+            $::env(SRC_DIR)/axi_crossbar/synth/netlist/pyfive_axi_crossbar.gv \
+            $::env(SRC_DIR)/axi_spi_master/synth/netlist/axi_spi_master.gv 
+	    ]
 
-#set ::env(SYNTH_DEFINES) [list SCR1_DBG_EN SCR1_MPRF_RAM ]
+
+set ::env(VERILOG_INCLUDE_DIRS) [glob \
+	     $::env(SRC_DIR)/includes \
+	     $::env(SRC_DIR)/syntacore/scr1/src/includes]
+
+
+set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 
 
 set ::env(LIB_SYNTH)  $::env(PROJ_DIR)/lib/trimmed.lib
-
-array set SET_PARMS {
-	      AXI4_ADDRESS_WIDTH 32\
-              AXI4_RDATA_WIDTH 32\
-	      AXI4_WDATA_WIDTH 32\
-	      AXI4_USER_WIDTH 1\
-	      AXI4_ID_WIDTH 9\
-	      BUFFER_DEPTH 32\
-	      }
 
 
 #set ::env(SDC_FILE) "./designs/aes128/src/aes128.sdc"
@@ -270,20 +272,6 @@ if { $strategy_type == "DELAY" } {
 
 for { set i 0 } { $i < [llength $::env(VERILOG_FILES)] } { incr i } {
 	read_verilog -sv {*}$vIdirsArgs [lindex $::env(VERILOG_FILES) $i]
-}
-
-#over-ride the parameter
-set vParmsArgs ""
-if {[llength SET_PARMS] > 0 } {
-    foreach {name value} [array get SET_PARMS] {
-    	log "Adding parameter over-ride $name $value"
-    	lappend vParmsArgs "-set $name $value"
-    }
-    lappend vParmsArgs "$::env(DESIGN_NAME)"
-    set vParmsArgs [join $vParmsArgs]
-    
-    log "Adding parameter over-ride $vParmsArgs"
-    chparam {*}$vParmsArgs  
 }
 
 if { [info exists ::env(VERILOG_FILES_BLACKBOX)] } {

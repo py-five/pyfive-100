@@ -459,12 +459,14 @@ scr1_top_axi u_riscv_top (
 
 axi_spi_master
 #(
+`ifndef SYNTHESIS
     .AXI4_ADDRESS_WIDTH  (AXI4_ADDR_WIDTH),
     .AXI4_RDATA_WIDTH    (AXI4_DATA_WIDTH),
     .AXI4_WDATA_WIDTH    (AXI4_DATA_WIDTH),
     .AXI4_USER_WIDTH     (AXI4_USER_WIDTH),
     .AXI4_ID_WIDTH       (AXI4_M_ID_WIDTH),
     .BUFFER_DEPTH        (32)
+`endif
 ) u_axi_spi_master
 (
     .s_axi_aclk             (clk                ),
@@ -535,6 +537,7 @@ axi_spi_master
 * *******************************************************/
 pyfive_axi_crossbar #
 (
+`ifndef SYNTHESIS
     // Width of data bus in bits
     .DATA_WIDTH(AXI4_DATA_WIDTH),
     // Width of address bus in bits
@@ -554,6 +557,7 @@ pyfive_axi_crossbar #
     .ARUSER_WIDTH(AXI4_USER_WIDTH),
     // Width of ruser signal
     .RUSER_WIDTH(AXI4_USER_WIDTH)
+`endif
 )  u_axi_crossbar
 (
     .clk                      (clk                       ),

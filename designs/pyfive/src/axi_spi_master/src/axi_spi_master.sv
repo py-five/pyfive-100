@@ -85,8 +85,10 @@ module axi_spi_master
     logic  [31:0] spi_status;
     logic  [31:0] spi_addr;
     logic   [5:0] spi_addr_len;
-    logic  [31:0] spi_cmd;
+    logic  [7:0]  spi_cmd;
     logic   [5:0] spi_cmd_len;
+    logic  [7:0]  spi_mode_cmd;
+    logic         spi_mode_cmd_enb;
     logic  [15:0] spi_data_len;
     logic  [15:0] spi_dummy_rd;
     logic  [15:0] spi_dummy_wr;
@@ -199,6 +201,8 @@ module axi_spi_master
         .spi_addr_len(spi_addr_len),
         .spi_cmd(spi_cmd),
         .spi_cmd_len(spi_cmd_len),
+        .spi_mode_cmd(spi_mode_cmd),
+        .spi_mode_cmd_enb(spi_mode_cmd_enb),
         .spi_data_len(spi_data_len),
         .spi_dummy_rd(spi_dummy_rd),
         .spi_dummy_wr(spi_dummy_wr),
@@ -279,6 +283,8 @@ module axi_spi_master
         .spi_addr_len(spi_addr_len),
         .spi_cmd(spi_cmd),
         .spi_cmd_len(spi_cmd_len),
+        .spi_mode_cmd(spi_mode_cmd),
+        .spi_mode_cmd_enb(spi_mode_cmd_enb),
         .spi_data_len(spi_data_len),
         .spi_dummy_rd(spi_dummy_rd),
         .spi_dummy_wr(spi_dummy_wr),

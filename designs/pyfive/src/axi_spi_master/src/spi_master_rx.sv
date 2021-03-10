@@ -8,7 +8,9 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-module spi_master_rx
+module spi_master_rx #(
+		parameter ENDIEAN = 0  // 0 - Little, 1 - Big endian, since RISV is Little indian default set 0
+	)	
 (
     input  logic        clk,
     input  logic        rstn,
@@ -34,15 +36,15 @@ module spi_master_rx
   logic [15:0] counter_trgt;
   logic [15:0] counter_next;
   logic [15:0] counter_trgt_next;
-  logic        done;
   logic        reg_done;
   enum logic [1:0] { IDLE, RECEIVE, WAIT_FIFO, WAIT_FIFO_DONE } rx_CS, rx_NS;
 
 
   assign reg_done  = (!en_quad_in && (counter[4:0] == 5'b11111)) || (en_quad_in && (counter[2:0] == 3'b111));
 
-  assign data = data_int_next;
-  assign rx_done = done;
+  // RISV is little endian, so data is converted to little endian format
+  assign data = (ENDIEAN) ? data_int_next : {data_int_next[7:0],data_int_next[15:8],data_int_next[23:16],data_int_next[31:24]};
+  assign rx_done = (counter == (counter_trgt-1)) &  rx_edge;
 
   always_comb
   begin
@@ -51,8 +53,6 @@ module spi_master_rx
     else
       counter_trgt_next = counter_trgt;
   end
-
-  assign done = (counter == counter_trgt-1) && rx_edge;
 
   always_comb
   begin
@@ -77,11 +77,10 @@ module spi_master_rx
 
         if (rx_edge) begin
           counter_next = counter + 1;
-
           if (en_quad_in)
-            data_int_next = {data_int[27:0],sdi3,sdi2,sdi1,sdi0};
+             data_int_next = {data_int[27:0],sdi3,sdi2,sdi1,sdi0};
           else
-            data_int_next = {data_int[30:0],sdi1};
+             data_int_next = {data_int[30:0],sdi1};
 
           if (rx_done) begin
             counter_next = 0;

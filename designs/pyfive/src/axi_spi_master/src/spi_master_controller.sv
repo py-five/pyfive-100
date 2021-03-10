@@ -29,8 +29,10 @@ module spi_master_controller
 
     input  logic                   [31:0] spi_addr,
     input  logic                    [5:0] spi_addr_len,
-    input  logic                   [31:0] spi_cmd,
+    input  logic                   [7:0]  spi_cmd,
     input  logic                    [5:0] spi_cmd_len,
+    input  logic                   [7:0]  spi_mode_cmd,
+    input  logic                          spi_mode_cmd_enb,
     input  logic                   [15:0] spi_data_len,
     input  logic                   [15:0] spi_dummy_rd,
     input  logic                   [15:0] spi_dummy_wr,
@@ -96,20 +98,24 @@ module spi_master_controller
 
   logic tx_clk_en;
   logic rx_clk_en;
+  logic en_quad_in;
+  
 
-  enum logic [2:0] {DATA_NULL,DATA_EMPTY,DATA_CMD,DATA_ADDR,DATA_FIFO} ctrl_data_mux;
+  enum logic [2:0] {DATA_NULL,DATA_EMPTY,DATA_CMD,DATA_ADDR,DATA_MODE,DATA_FIFO} ctrl_data_mux;
 
   enum logic [4:0] {IDLE,CMD,ADDR,MODE,DUMMY,DATA_TX,DATA_RX,WAIT_EDGE} state,state_next;
 
   assign en_quad = spi_qrd | spi_qwr | en_quad_int;
+  
+  
+  assign en_quad_in = (s_spi_mode == `SPI_STD) ? 1'b0 : 1'b1;
 
   spi_master_clkgen u_clkgen
   (
     .clk           ( clk               ),
     .rstn          ( rstn              ),
     .en            ( spi_clock_en      ),
-    .clk_div       ( spi_clk_div       ),
-    .clk_div_valid ( spi_clk_div_valid ),
+    .cfg_sck_period( spi_clk_div       ),
     .spi_clk       ( spi_clk           ),
     .spi_fall      ( spi_fall          ),
     .spi_rise      ( spi_rise          )
@@ -126,7 +132,7 @@ module spi_master_controller
     .sdo1           ( spi_sdo1         ),
     .sdo2           ( spi_sdo2         ),
     .sdo3           ( spi_sdo3         ),
-    .en_quad_in     ( en_quad          ),
+    .en_quad_in     ( en_quad_in       ),
     .counter_in     ( counter_tx       ),
     .counter_in_upd ( counter_tx_valid ),
     .data           ( data_to_tx       ),
@@ -146,7 +152,7 @@ module spi_master_controller
     .sdi1           ( spi_sdi1               ),
     .sdi2           ( spi_sdi2               ),
     .sdi3           ( spi_sdi3               ),
-    .en_quad_in     ( en_quad                ),
+    .en_quad_in     ( en_quad_in             ),
     .counter_in     ( counter_rx             ),
     .counter_in_upd ( counter_rx_valid       ),
     .data           ( spi_ctrl_data_rx       ),
@@ -214,7 +220,13 @@ module spi_master_controller
 
           DATA_CMD:
           begin
-              data_to_tx       = spi_cmd;
+          	  data_to_tx       = {spi_cmd,24'h0};
+              data_to_tx_valid = ctrl_data_valid;
+              spi_ctrl_data_tx_ready = 1'b0;
+          end
+          DATA_MODE:
+          begin
+              data_to_tx       = {spi_mode_cmd,24'h0};
               data_to_tx_valid = ctrl_data_valid;
               spi_ctrl_data_tx_ready = 1'b0;
           end
@@ -263,7 +275,8 @@ module spi_master_controller
 
           if (spi_cmd_len != 0)
           begin
-            s_spi_mode = (spi_qrd | spi_qwr) ? `SPI_QUAD_TX : `SPI_STD;
+//            s_spi_mode = (spi_qrd | spi_qwr) ? `SPI_QUAD_TX : `SPI_STD;
+            s_spi_mode       = `SPI_STD; // COMMAND is always Standard Mode ?
             counter_tx       = {8'h0,spi_cmd_len};
             counter_tx_valid = 1'b1;
             ctrl_data_mux    = DATA_CMD;
@@ -281,48 +294,58 @@ module spi_master_controller
             spi_en_tx        = 1'b1;
             state_next       = ADDR;
           end
+          else if (spi_mode_cmd_enb != 0)
+          begin
+            s_spi_mode = (spi_qrd | spi_qwr) ? `SPI_QUAD_TX : `SPI_STD;
+            counter_tx       = {8'h0,8'h8};
+            counter_tx_valid = 1'b1;
+            ctrl_data_mux    = DATA_MODE;
+            ctrl_data_valid  = 1'b1;
+            spi_en_tx        = 1'b1;
+            state_next       = MODE;
+          end
           else if (spi_data_len != 0)
           begin
-            if (spi_rd || spi_qrd)
-            begin
-              s_spi_mode = (spi_qrd) ? `SPI_QUAD_RX : `SPI_STD;
-              if(spi_dummy_rd != 0)
-              begin
-                counter_tx       = en_quad ? {spi_dummy_rd[13:0],2'b00} : spi_dummy_rd;
-                counter_tx_valid = 1'b1;
-                spi_en_tx        = 1'b1;
-                ctrl_data_mux    = DATA_EMPTY;
-                state_next       = DUMMY;
-              end
-              else
-              begin
-                counter_rx       = spi_data_len;
-                counter_rx_valid = 1'b1;
-                spi_en_rx        = 1'b1;
-                state_next       = DATA_RX;
-              end
-            end
-            else
-            begin
-              s_spi_mode = (spi_qwr) ? `SPI_QUAD_TX : `SPI_STD;
-              if(spi_dummy_wr != 0)
-              begin
-                counter_tx       = en_quad ? {spi_dummy_wr[13:0],2'b00} : spi_dummy_wr;
-                counter_tx_valid = 1'b1;
-                ctrl_data_mux    = DATA_EMPTY;
-                spi_en_tx        = 1'b1;
-                state_next       = DUMMY;
-              end
-              else
-              begin
-                counter_tx       = spi_data_len;
-                counter_tx_valid = 1'b1;
-                ctrl_data_mux    = DATA_FIFO;
-                ctrl_data_valid  = 1'b0;
-                spi_en_tx        = 1'b1;
-                state_next       = DATA_TX;
-              end
-            end
+             if (spi_rd || spi_qrd)
+             begin
+                s_spi_mode = (spi_qrd) ? `SPI_QUAD_RX : `SPI_STD;
+                if(spi_dummy_rd != 0)
+                begin
+                  counter_tx       = en_quad ? {2'b00,spi_dummy_rd[13:0]} : spi_dummy_rd;
+                  counter_tx_valid = 1'b1;
+                  spi_en_tx        = 1'b1;
+                  ctrl_data_mux    = DATA_EMPTY;
+                  state_next       = DUMMY;
+                end
+                else
+                begin
+                   counter_rx       = spi_data_len;
+                   counter_rx_valid = 1'b1;
+                   spi_en_rx        = 1'b1;
+                   state_next       = DATA_RX;
+                end
+             end
+             else
+             begin
+                s_spi_mode = (spi_qwr) ? `SPI_QUAD_TX : `SPI_STD;
+                if(spi_dummy_wr != 0)
+                begin
+                   counter_tx       = en_quad ? {2'b00,spi_dummy_wr[13:0]} : spi_dummy_wr;
+                   counter_tx_valid = 1'b1;
+                   ctrl_data_mux    = DATA_EMPTY;
+                   spi_en_tx        = 1'b1;
+                   state_next       = DUMMY;
+                end
+                else
+                begin
+                   counter_tx       = spi_data_len;
+                   counter_tx_valid = 1'b1;
+                   ctrl_data_mux    = DATA_FIFO;
+                   ctrl_data_valid  = 1'b0;
+                   spi_en_tx        = 1'b1;
+                   state_next       = DATA_TX;
+                end
+             end
           end
         end
         else
@@ -337,7 +360,8 @@ module spi_master_controller
         spi_status[1] = 1'b1;
         spi_cs = 1'b0;
         spi_clock_en = 1'b1;
-        s_spi_mode = (en_quad) ? `SPI_QUAD_TX : `SPI_STD;
+//      s_spi_mode = (en_quad) ? `SPI_QUAD_TX : `SPI_STD;
+        s_spi_mode = `SPI_STD; // Command is always Standard Mode ?
         if (tx_done)
         begin
           if (spi_addr_len != 0)
@@ -350,6 +374,16 @@ module spi_master_controller
             spi_en_tx        = 1'b1;
             state_next       = ADDR;
           end
+          else if (spi_mode_cmd_enb != 0)
+          begin
+            s_spi_mode = (spi_qrd | spi_qwr) ? `SPI_QUAD_TX : `SPI_STD;
+            counter_tx       = {8'h0,8'h8};
+            counter_tx_valid = 1'b1;
+            ctrl_data_mux    = DATA_MODE;
+            ctrl_data_valid  = 1'b1;
+            spi_en_tx        = 1'b1;
+            state_next       = MODE;
+          end
           else if (spi_data_len != 0)
           begin
             if (do_rx)
@@ -357,7 +391,7 @@ module spi_master_controller
               s_spi_mode = (en_quad) ? `SPI_QUAD_RX : `SPI_STD;
               if(spi_dummy_rd != 0)
               begin
-                counter_tx       = en_quad ? {spi_dummy_rd[13:0],2'b00} : spi_dummy_rd;
+                counter_tx       = en_quad ? {2'b00,spi_dummy_rd[13:0]} : spi_dummy_rd;
                 counter_tx_valid = 1'b1;
                 spi_en_tx        = 1'b1;
                 ctrl_data_mux    = DATA_EMPTY;
@@ -376,7 +410,7 @@ module spi_master_controller
               s_spi_mode = (en_quad) ? `SPI_QUAD_TX : `SPI_STD;
               if(spi_dummy_wr != 0)
               begin
-                counter_tx       = en_quad ? {spi_dummy_wr[13:0],2'b00} : spi_dummy_wr;
+                counter_tx       = en_quad ? {2'b00,spi_dummy_wr[13:0]} : spi_dummy_wr;
                 counter_tx_valid = 1'b1;
                 ctrl_data_mux    = DATA_EMPTY;
                 spi_en_tx        = 1'b1;
@@ -415,14 +449,24 @@ module spi_master_controller
 
         if (tx_done)
         begin
-          if (spi_data_len != 0)
+          if (spi_mode_cmd_enb != 0)
+          begin
+            s_spi_mode = (spi_qrd | spi_qwr) ? `SPI_QUAD_TX : `SPI_STD;
+            counter_tx       = {8'h0,8'h8};
+            counter_tx_valid = 1'b1;
+            ctrl_data_mux    = DATA_MODE;
+            ctrl_data_valid  = 1'b1;
+            spi_en_tx        = 1'b1;
+            state_next       = MODE;
+          end
+          else if (spi_data_len != 0)
           begin
             if (do_rx)
             begin
               s_spi_mode = (en_quad) ? `SPI_QUAD_RX : `SPI_STD;
               if(spi_dummy_rd != 0)
               begin
-                counter_tx       = en_quad ? {spi_dummy_rd[13:0],2'b00} : spi_dummy_rd;
+                counter_tx       = en_quad ? {2'b00,spi_dummy_rd[13:0]} : spi_dummy_rd;
                 counter_tx_valid = 1'b1;
                 spi_en_tx        = 1'b1;
                 ctrl_data_mux    = DATA_EMPTY;
@@ -442,7 +486,7 @@ module spi_master_controller
               spi_en_tx  = 1'b1;
 
               if(spi_dummy_wr != 0) begin
-                counter_tx       = en_quad ? {spi_dummy_wr[13:0],2'b00} : spi_dummy_wr;
+                counter_tx       = en_quad ? {2'b00,spi_dummy_wr[13:0]} : spi_dummy_wr;
                 counter_tx_valid = 1'b1;
                 ctrl_data_mux    = DATA_EMPTY;
                 state_next       = DUMMY;
@@ -464,10 +508,58 @@ module spi_master_controller
 
       MODE:
       begin
+        spi_en_tx     = 1'b1;
         spi_status[3] = 1'b1;
-        spi_cs = 1'b0;
-        spi_clock_en = 1'b1;
-        spi_en_tx        = 1'b1;
+        spi_cs        = 1'b0;
+        spi_clock_en  = 1'b1;
+        s_spi_mode    = (en_quad) ? `SPI_QUAD_TX : `SPI_STD;
+        if (tx_done)
+        begin
+          if (spi_data_len != 0)
+          begin
+            if (do_rx)
+            begin
+              s_spi_mode = (en_quad) ? `SPI_QUAD_RX : `SPI_STD;
+              if(spi_dummy_rd != 0)
+              begin
+                counter_tx       = en_quad ? {2'b00,spi_dummy_rd[13:0]} : spi_dummy_rd;
+                counter_tx_valid = 1'b1;
+                spi_en_tx        = 1'b1;
+                ctrl_data_mux    = DATA_EMPTY;
+                state_next       = DUMMY;
+              end
+              else
+              begin
+                counter_rx       = spi_data_len;
+                counter_rx_valid = 1'b1;
+                spi_en_rx        = 1'b1;
+                state_next       = DATA_RX;
+              end
+            end
+            else
+            begin
+              s_spi_mode = (en_quad) ? `SPI_QUAD_TX : `SPI_STD;
+              spi_en_tx  = 1'b1;
+
+              if(spi_dummy_wr != 0) begin
+                counter_tx       = en_quad ? {2'b00,spi_dummy_wr[13:0]} : spi_dummy_wr;
+                counter_tx_valid = 1'b1;
+                ctrl_data_mux    = DATA_EMPTY;
+                state_next       = DUMMY;
+              end else begin
+                counter_tx       = spi_data_len;
+                counter_tx_valid = 1'b1;
+                ctrl_data_mux    = DATA_FIFO;
+                ctrl_data_valid  = 1'b1;
+                state_next       = DATA_TX;
+              end
+            end
+          end
+          else
+          begin
+            state_next = IDLE;
+          end
+        end
       end
 
       DUMMY:
@@ -548,13 +640,8 @@ module spi_master_controller
         spi_cs        = 1'b0;
         spi_clock_en  = 1'b0;
         s_spi_mode    = (en_quad) ? `SPI_QUAD_RX : `SPI_STD;
-
-        if (spi_fall) begin
-          eot        = 1'b1;
-          state_next = IDLE;
-        end else begin
-          state_next = WAIT_EDGE;
-        end
+        eot           = 1'b1;
+        state_next    = IDLE;
       end
     endcase
   end
@@ -589,8 +676,8 @@ assign  reg2axi_ack = 	(spi_req_sel==1 & spi_status[7]) ? 1'b1 : 1'b0;
     end
     else
     begin
-      state <= state_next;
-      spi_mode <= s_spi_mode;
+       state <= state_next;
+       spi_mode <= s_spi_mode;
       if (spi_qrd || spi_qwr)
         en_quad_int <= 1'b1;
       else if (state_next == IDLE)

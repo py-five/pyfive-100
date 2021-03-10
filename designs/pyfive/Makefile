@@ -115,7 +115,7 @@ endif
 
 # Paths
 export root_dir := $(shell pwd)
-export tst_dir  := $(root_dir)/sim/tests
+export tst_dir  := $(root_dir)/tb/tests
 export syn_dir  := $(root_dir)/synth
 export inc_dir  := $(tst_dir)/common
 export bld_dir  := $(root_dir)/build/$(current_goal)_$(BUS)_$(CFG)_$(ARCH)_IPIC_$(IPIC)_TCM_$(TCM)_VIRQ_$(VECT_IRQ)_TRACE_$(TRACE)

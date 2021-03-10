@@ -69,9 +69,9 @@ module spi_master_tx
     case (tx_CS)
       IDLE: begin
         clk_en_o = 1'b0;
+        data_int_next = data;
 
         if (en && data_valid) begin
-          data_int_next = data;
           data_ready    = 1'b1;
           tx_NS         = TRANSMIT;
         end
@@ -120,10 +120,10 @@ module spi_master_tx
     end
     else
     begin
-      counter      <= counter_next;
-      counter_trgt <= counter_trgt_next;
-      data_int     <= data_int_next;
-      tx_CS        <= tx_NS;
+       counter      <= counter_next;
+       counter_trgt <= counter_trgt_next;
+       data_int     <= data_int_next;
+       tx_CS        <= tx_NS;
     end
   end
 endmodule

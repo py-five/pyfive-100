@@ -97,8 +97,10 @@ module spi_master_axi_if #(
 
     output logic                   [31:0] spi_addr,
     output logic                    [5:0] spi_addr_len,
-    output logic                   [31:0] spi_cmd,
+    output logic                   [7:0]  spi_cmd,
     output logic                    [5:0] spi_cmd_len,
+    output logic                   [7:0]  spi_mode_cmd,
+    output logic                          spi_mode_cmd_enb,
     output logic                    [3:0] spi_csreg,
     output logic                   [15:0] spi_data_len,
     output logic                   [15:0] spi_dummy_rd,
@@ -133,6 +135,8 @@ module spi_master_axi_if #(
   logic                [5:0]  reg2spi_cmd_len;
   logic                [3:0]  reg2spi_csreg;
   logic               [15:0]  reg2spi_data_len;
+  logic                       reg2spi_mode_enb; // mode enable
+  logic               [7:0]   reg2spi_mode;     // mode 
   logic               [15:0]  reg2spi_dummy_rd;
   logic               [15:0]  reg2spi_dummy_wr;
   logic                       reg2spi_swrst;
@@ -172,19 +176,21 @@ module spi_master_axi_if #(
 
    // Priority given to axi2spi request over Reg2Spi
 
-    assign  spi_addr      =  (axi2spi_req) ? axi2spi_addr      : reg2spi_addr;      
-    assign  spi_addr_len  =  (axi2spi_req) ? 32                : reg2spi_addr_len;  
-    assign  spi_cmd       =  (axi2spi_req) ? 32'hDA000000      : reg2spi_cmd;       
-    assign  spi_cmd_len   =  (axi2spi_req) ? 8                 : reg2spi_cmd_len;   
-    assign  spi_csreg     =  (axi2spi_req) ? '1                : reg2spi_csreg;     
-    assign  spi_data_len  =  (axi2spi_req) ? axi2spi_data_len  : reg2spi_data_len;  
-    assign  spi_dummy_rd  =  (axi2spi_req) ? 8                 : reg2spi_dummy_rd;  
-    assign  spi_dummy_wr  =  (axi2spi_req) ? 0                 : reg2spi_dummy_wr;  
-    assign  spi_swrst     =  (axi2spi_req) ? 0                 : reg2spi_swrst;     
-    assign  spi_rd        =  (axi2spi_req) ? 0                 : reg2spi_rd;        
-    assign  spi_wr        =  (axi2spi_req) ? 0                 : reg2spi_wr;        
-    assign  spi_qrd       =  (axi2spi_req) ? 1                 : reg2spi_qrd;       
-    assign  spi_qwr       =  (axi2spi_req) ? 0                 : reg2spi_qwr;       
+    assign  spi_addr          =  (axi2spi_req) ? {axi2spi_addr[23:0],8'h0}      : reg2spi_addr;      
+    assign  spi_addr_len      =  (axi2spi_req) ? 24                             : reg2spi_addr_len;  
+    assign  spi_cmd           =  (axi2spi_req) ? 8'hEB                          : reg2spi_cmd;       
+    assign  spi_cmd_len       =  (axi2spi_req) ? 8                              : reg2spi_cmd_len;   
+    assign  spi_mode_cmd      =  (axi2spi_req) ? 8'h00                          : reg2spi_mode;       
+    assign  spi_mode_cmd_enb  =  (axi2spi_req) ? 1                              : reg2spi_mode_enb;   
+    assign  spi_csreg         =  (axi2spi_req) ? '1                             : reg2spi_csreg;     
+    assign  spi_data_len      =  (axi2spi_req) ? axi2spi_data_len               : reg2spi_data_len;  
+    assign  spi_dummy_rd      =  (axi2spi_req) ? 16                             : reg2spi_dummy_rd;  
+    assign  spi_dummy_wr      =  (axi2spi_req) ? 0                              : reg2spi_dummy_wr;  
+    assign  spi_swrst         =  (axi2spi_req) ? 0                              : reg2spi_swrst;     
+    assign  spi_rd            =  (axi2spi_req) ? 0                              : reg2spi_rd;        
+    assign  spi_wr            =  (axi2spi_req) ? 0                              : reg2spi_wr;        
+    assign  spi_qrd           =  (axi2spi_req) ? 1                              : reg2spi_qrd;       
+    assign  spi_qwr           =  (axi2spi_req) ? 0                              : reg2spi_qwr;       
 
 
   //------------------------------------------------------------------------------
@@ -227,12 +233,12 @@ module spi_master_axi_if #(
 
       if(sample_AR)
       begin
-	axi2spi_req <= 1;
+	    axi2spi_req <= 1;
         axi_aruser_r     <=  s_axi_aruser;
         axi_arid_r       <=  s_axi_arid;
         reg_raddr        <=  {s_axi_araddr[28],s_axi_araddr[4:2]};
-	axi2spi_addr     <=  {4'b0,s_axi_araddr[27:0]};
-	axi2spi_data_len <=  (s_axi_arlen+1) << 5; // Convert into Bit length 4 bytes means 4 * 8 = 32 
+	    axi2spi_addr     <=  {4'b0,s_axi_araddr[27:0]};
+	    axi2spi_data_len <=  (s_axi_arlen+1) << 5; // Convert into Bit length 4 bytes means 4 * 8 = 32 
         end else begin 
 	  if(spi2axi_ack == 1) axi2spi_req <= 0;
 	end
@@ -634,12 +640,14 @@ module spi_master_axi_if #(
       reg2spi_cmd_len       <=  'h0;
       reg2spi_addr_len      <=  'h0;
       reg2spi_data_len      <=  'h0;
+      reg2spi_mode_enb      <=  'h0;
+      reg2spi_mode          <=  'h0;
       reg2spi_dummy_rd      <=  'h0;
       reg2spi_dummy_wr      <=  'h0;
       reg2spi_csreg         <=  'h0;
       reg2spi_req           <=  'h0;
       spi_clk_div_valid     <= 1'b0;
-      spi_clk_div           <=  'h0;
+      spi_clk_div           <=  'h2;
     end
     else if (write_req)
     begin
@@ -666,20 +674,24 @@ module spi_master_axi_if #(
             spi_clk_div <= s_axi_wdata[7:0];
             spi_clk_div_valid <= 1'b1;
           end
-        `REG_SPICMD:
-          for (byte_index = 0; byte_index < 4; byte_index = byte_index+1 )
-            if ( s_axi_wstrb[byte_index] == 1 )
-              reg2spi_cmd[byte_index*8 +: 8] <= s_axi_wdata[(byte_index*8) +: 8];
+        `REG_SPICMD: begin
+          if ( s_axi_wstrb[0] == 1 )
+              reg2spi_cmd[7:0] <= s_axi_wdata[7:0];
+          if ( s_axi_wstrb[1] == 1 )
+              reg2spi_mode[7:0] <= s_axi_wdata[15:8];
+          end
         `REG_SPIADR:
           for (byte_index = 0; byte_index < 4; byte_index = byte_index+1 )
             if ( s_axi_wstrb[byte_index] == 1 )
               reg2spi_addr[byte_index*8 +: 8] <= s_axi_wdata[(byte_index*8) +: 8];
         `REG_SPILEN:
         begin
-          if ( s_axi_wstrb[0] == 1 )
-            reg2spi_cmd_len <= s_axi_wdata[7:0];
+        	if ( s_axi_wstrb[0] == 1 ) begin
+               reg2spi_mode_enb <= s_axi_wdata[6];
+               reg2spi_cmd_len  <= s_axi_wdata[5:0];
+        	end
           if ( s_axi_wstrb[1] == 1 )
-            reg2spi_addr_len <= s_axi_wdata[15:8];
+            reg2spi_addr_len <= s_axi_wdata[13:8];
           if ( s_axi_wstrb[2] == 1 )
             reg2spi_data_len[7:0] <= s_axi_wdata[23:16];
           if ( s_axi_wstrb[3] == 1 )
@@ -700,13 +712,6 @@ module spi_master_axi_if #(
     end
     else
     begin
-      reg2spi_swrst     <= 1'b0;
-      reg2spi_rd        <= 1'b0;
-      reg2spi_wr        <= 1'b0;
-      reg2spi_qrd       <= 1'b0;
-      reg2spi_qwr       <= 1'b0;
-      reg2spi_csreg     <= 'h0;
-      spi_clk_div_valid <= 1'b0;
       if(spi2reg_ack)   
 	 reg2spi_req <= 1'b0;
     end
@@ -723,13 +728,13 @@ module spi_master_axi_if #(
         `REG_CLKDIV:
                 s_axi_rdata[31:0] = {24'h0,spi_clk_div};
         `REG_SPICMD:
-          s_axi_rdata[31:0] = spi_cmd;
+          s_axi_rdata[31:0] = {16'h0,reg2spi_mode,reg2spi_cmd};
         `REG_SPIADR:
-          s_axi_rdata[31:0] = spi_addr;
+          s_axi_rdata[31:0] = reg2spi_addr;
         `REG_SPILEN:
-          s_axi_rdata[31:0] = {spi_data_len,2'b00,spi_addr_len,2'b00,spi_cmd_len};
+          s_axi_rdata[31:0] = {reg2spi_data_len,2'b00,reg2spi_addr_len,1'b0,reg2spi_mode_enb,reg2spi_cmd_len};
         `REG_SPIDUM:
-                s_axi_rdata[31:0] = {spi_dummy_wr,spi_dummy_rd};
+                s_axi_rdata[31:0] = {reg2spi_dummy_wr,reg2spi_dummy_rd};
       endcase
     end // SLAVE_REG_READ_PROC
 

@@ -13,69 +13,57 @@ module spi_master_clkgen
     input  logic                        clk,
     input  logic                        rstn,
     input  logic                        en,
-    input  logic          [7:0]         clk_div,
-    input  logic                        clk_div_valid,
+    input  logic          [7:0]         cfg_sck_period,
     output logic                        spi_clk,
     output logic                        spi_fall,
     output logic                        spi_rise
 );
 
-    logic [7:0] counter_trgt;
-    logic [7:0] counter_trgt_next;
-    logic [7:0] counter;
-    logic [7:0] counter_next;
+	logic [7:0] sck_half_period;
+	logic [7:0] clk_cnt;
 
-    logic       spi_clk_next;
-    logic       running;
+    assign sck_half_period = {1'b0, cfg_sck_period[7:1]};
+   
+    // Generated spi_fall and rise signal combinational to do pre-lanch
+    assign spi_fall        = en & (clk_cnt == sck_half_period);
+    assign spi_rise        = en & (clk_cnt == cfg_sck_period);
+    // The first transition on the sck_toggle happens one SCK period
+    // after op_en or boot_en is asserted
+    always @(posedge clk or negedge rstn) begin
+    	if(!rstn) begin
+    		clk_cnt    <= 'h1;
+    		spi_clk    <= 1'b1;
+    	end // if (!reset_n)
+    	else 
+    	begin
+    		if(en) 
+    		begin
+    			if(clk_cnt == sck_half_period) 
+    			begin
+    				spi_clk <= 1'b0;
+    				clk_cnt <= clk_cnt + 1'b1;
+    			end // if (clk_cnt == sck_half_period)
+    			else 
+    			begin
+    				if(clk_cnt == cfg_sck_period) 
+    				begin
+    					spi_clk <= 1'b1;
+    					clk_cnt <= 'h1;
+    				end // if (clk_cnt == cfg_sck_period)
+    				else 
+    				begin
+    					clk_cnt <= clk_cnt + 1'b1;
+    				end // else: !if(clk_cnt == cfg_sck_period)
+    			end // else: !if(clk_cnt == sck_half_period)
+    		end // if (op_en)
+    		else 
+    		begin
+    			clk_cnt    <= 'h1;
+    		end // else: !if(op_en)
+    	end // else: !if(!reset_n)
+    end // always @ (posedge clk or negedge reset_n)
 
-    always_comb
-    begin
-            spi_rise = 1'b0;
-            spi_fall = 1'b0;
-            if (clk_div_valid)
-                counter_trgt_next = clk_div;
-            else
-                counter_trgt_next = counter_trgt;
-
-            if (counter == counter_trgt)
-            begin
-                counter_next = 0;
-                spi_clk_next = ~spi_clk;
-                if(spi_clk == 1'b0)
-                    spi_rise = running;
-                else
-                    spi_fall = running;
-            end
-            else
-            begin
-                counter_next = counter + 1;
-                spi_clk_next = spi_clk;
-            end
-    end
-
-    always_ff @(posedge clk, negedge rstn)
-    begin
-        if (rstn == 1'b0)
-        begin
-            counter_trgt <= 'h0;
-            counter      <= 'h0;
-            spi_clk      <= 1'b0;
-            running      <= 1'b0;
-        end
-        else
-        begin
-            counter_trgt <= counter_trgt_next;
-            if ( !((spi_clk==1'b0)&&(~en)) )
-            begin
-                running <= 1'b1;
-                spi_clk <= spi_clk_next;
-                counter <= counter_next;
-            end
-            else
-                running <= 1'b0;
-        end
-    end
-
-
+    
+    
 
 endmodule

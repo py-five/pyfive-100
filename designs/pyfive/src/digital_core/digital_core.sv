@@ -66,7 +66,8 @@ module digital_core (
     output logic                        spim_csn2,
     output logic                        spim_csn3,
     output logic       [1:0]            spim_mode,
-    output logic       [3:0]            spmio  // SPI Master I/O
+    input logic        [3:0]            spim_sdi, // SPI Master out
+    output logic       [3:0]            spim_sdo  // SPI Master out
 );
 
 //---------------------------------------------------
@@ -293,25 +294,29 @@ logic                          spim_axi_rready         ;  // Read ready. This si
 
 //-----------------------------------------------------------
 logic                          spi_en_tx               ; // SPI Pad directional control
-logic                          spim_sdo0               ; // SPI Master Data Out[0]
-logic                          spim_sdo1               ; // SPI Master Data Out[1]
-logic                          spim_sdo2               ; // SPI Master Data Out[2]
-logic                          spim_sdo3               ; // SPI Master Data Out[3]
-logic                          spim_sdi0               ; // SPI Master Data In[0]
-logic                          spim_sdi1               ; // SPI Master Data In[1]
-logic                          spim_sdi2               ; // SPI Master Data In[2]
-logic                          spim_sdi3               ; // SPI Master Data In[3]
 
-assign  spmio[0]  =  (spi_en_tx) ? spim_sdo0 : 1'bz;
-assign  spmio[1]  =  (spi_en_tx) ? spim_sdo1 : 1'bz;
-assign  spmio[2]  =  (spi_en_tx) ? spim_sdo2 : 1'bz;
-assign  spmio[3]  =  (spi_en_tx) ? spim_sdo3 : 1'bz;
+// Temp maksed as verilator has limited support for bi-dir or tri-state
+// function
+//logic                          spim_sdo0               ; // SPI Master Data Out[0]
+//logic                          spim_sdo1               ; // SPI Master Data Out[1]
+//logic                          spim_sdo2               ; // SPI Master Data Out[2]
+//logic                          spim_sdo3               ; // SPI Master Data Out[3]
+//logic                          spim_sdi0               ; // SPI Master Data In[0]
+//logic                          spim_sdi1               ; // SPI Master Data In[1]
+//logic                          spim_sdi2               ; // SPI Master Data In[2]
+//logic                          spim_sdi3               ; // SPI Master Data In[3]
+//
+//assign  spmio[0]  =  (spi_en_tx) ? spim_sdo0 : 1'bz;
+//assign  spmio[1]  =  (spi_en_tx) ? spim_sdo1 : 1'bz;
+//assign  spmio[2]  =  (spi_en_tx) ? spim_sdo2 : 1'bz;
+//assign  spmio[3]  =  (spi_en_tx) ? spim_sdo3 : 1'bz;
+//
+assign  spim_sdi0 =   spim_sdi[0];
+assign  spim_sdi1 =   spim_sdi[1];
+assign  spim_sdi2 =   spim_sdi[2];
+assign  spim_sdi3 =   spim_sdi[3];
 
-assign  spim_sdi0 =   spmio[0];
-assign  spim_sdi1 =   spmio[1];
-assign  spim_sdi2 =   spmio[2];
-assign  spim_sdi3 =   spmio[3];
-
+assign  spim_sdo  =   {spim_sdo3,spim_sdo2,spim_sdo1,spim_sdo0};
 //------------------------------------------------------------------------------
 // RISC V Core instance
 //------------------------------------------------------------------------------
